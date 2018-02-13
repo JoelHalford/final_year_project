@@ -1,0 +1,56 @@
+<h1 class="page-header"> Register Page</h1>
+
+<div class="row show-hide-message">
+	<div [ngClass]="checkerClass">
+		{{	checker	}}
+	</div>
+</div>
+
+<form [formGroup]="form" (submit)="onRegisterSubmit()">
+
+  <!-- username -->
+<div class="row vertical-offset-100">
+ <div class="col-md-4 col-md-offset-4">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty), 'has-success': !form.controls.username.errors}">
+      <input type="text" name="username" class="form-control" autocomplete="off" placeholder="*Username" formControlName="username" />
+      <!-- validation -->
+      <ul class="help-block">
+        <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
+        <li *ngIf="form.controls.username.errors?.minlength && form.controls.username.dirty || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Minimum characters: 3, Maximum characters: 15</li>
+      </ul>
+    </div>
+  </div>
+  <!-- password -->
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div [ngClass]="{'has-error': (form.controls.password.errors && form.controls.password.dirty), 'has-success': !form.controls.password.errors}">
+      <input type="password" name="password" class="form-control" autocomplete="off" placeholder="*Password" formControlName="password" />
+      <!-- validation -->
+      <ul class="help-block">
+        <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
+        <li *ngIf="form.controls.password.errors?.minlength && form.controls.password.dirty || form.controls.password.errors?.maxlength && form.controls.password.dirty ">Minimum characters: 4, Maximum characters: 20</li>
+        <li *ngIf="form.controls.password.errors?.validatePassword && form.controls.password.dirty">Password must have uppercase, lowercase, special character and number</li>
+      </ul>
+    </div>
+  </div>
+  <!-- confirm pass -->
+  <div class="form-group">
+    <label for="confirm">Confirm Password</label>
+    <div [ngClass]="{'has-error': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'has-success': !form.controls.confirm.errors && !form.errors?.matchingPasswords}">
+      <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="*Confirm Password" formControlName="confirm" />
+      <!-- validation -->
+      <ul class="help-block">
+        <li *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty">This field is required</li>
+        <li *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty">Password does not match</li>
+      </ul>
+    </div>
+  </div>
+  <!-- submit -->
+  <div id="button">
+  	<input [disabled]="!form.valid || processing" type="submit" class="btn btn-primary" value="Submit" />
+  </div>
+ </div>
+</div>
+</form>

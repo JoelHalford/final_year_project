@@ -1,0 +1,41 @@
+<h1 class="page-header"> Login Page</h1>
+
+<div class="row show-hide-message">
+	<div [ngClass]="checkerClass">
+		{{	checker	}}
+	</div>
+</div>
+
+<form [formGroup]="form" (submit)="onLoginSubmit()">
+
+  <!-- Username Input -->
+	<div class="row vertical-offset-100">
+	 <div class="col-md-4 col-md-offset-4">
+	  <div class="form-group">
+	    <label for="username">Username</label>
+	    <div [ngClass]="{'has-error': form.controls.username.errors && form.controls.username.dirty, 'has-success': form.controls.username.valid && form.controls.username.dirty }">
+	      <input type="text" name="username" class="form-control" autocomplete="off" placeholder="*Username" formControlName="username" />
+	      <!-- Validation -->
+	      <ul class="help-block">
+	        <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
+	      </ul>
+	    </div>
+	  </div>
+	  <!-- Password Input -->
+	  <div class="form-group">
+	    <label for="password">Password</label>
+	    <div [ngClass]="{'has-error': form.controls.password.errors && form.controls.password.dirty, 'has-success': form.controls.password.valid && form.controls.password.dirty }">
+	      <input type="password" name="password" class="form-control" autocomplete="off" placeholder="*Password" formControlName="password" />
+	      <!-- Validation -->
+	      <ul class="help-block">
+	        <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required</li>
+	      </ul>
+	    </div>
+	  </div>
+  <!-- Submit Input -->
+  <div id="button">
+  	<input [disabled]="!form.valid || processing" type="submit" class="btn btn-primary" value="Login" />
+  </div>
+ </div>
+</div>
+</form>
