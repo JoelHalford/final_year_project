@@ -1,0 +1,143 @@
+<h1 class="page-header">Products</h1>
+
+<!-- <div class="row show-hide-message">
+	<div [ngClass]="checkerClass">
+		{{	checker	}}
+	</div>
+</div> -->
+
+<!-- New Post Button -->
+<div class="newPostReload">
+	<button type="button" name="button" class="btn btn-warning" *ngIf="!newProduct" (click)="newProductForm()">New Product</button>
+
+	<button [disabled]="loadingProducts" type="button" name="button" class="btn btn-default" *ngIf="!newProduct" (click)="reloadProducts()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reload</button>
+</div>
+
+<br /><br />
+
+<!-- product form -->
+<form [formGroup]="form" name="productForm" class="productForm" (submit)="onProductSubmit()" *ngIf="newProduct">
+	<!-- product name input -->
+	<h2> Add New Product </h2>	
+	<div class="form-group, col-md-4 col-md-offset-4">		
+		<label for="product_name">Name</label>
+		<div [ngClass]="{'has-success': form.controls.product_name.valid, 'has-error': form.controls.product_name.dirty && form.controls.product_name.errors}">
+			<input type="text" name="product_name" class="form-control" placeholder="*Product name" autocomplete="off" formControlName="product_name" />
+	       <ul class="help-block">
+		        <li *ngIf="form.controls.product_name.product_name && form.controls.product_name.errors?.required">This field is required.</li>
+		        <li *ngIf="(form.controls.product_name.dirty && form.controls.product_name.errors?.minlength) || (form.controls.product_name.dirty && form.controls.product_name.errors?.maxlength)">Length between 4 & 40.</li>
+		        <li *ngIf="form.controls.product_name.dirty && form.controls.product_name.errors?.alphaNumericValidation">Must be a letter or number</li>
+	        </ul>
+		</div>
+	<!-- end of product name input -->
+	</div>
+	<!-- product price input -->
+	<div class="form-group, col-md-4 col-md-offset-4">
+		<label for="product_price">Price</label>
+
+		<div [ngClass]="{'has-success': form.controls.product_price.valid, 'has-error': form.controls.product_price.dirty && form.controls.product_price.errors}">
+			<input type="text" name="product_price" class="form-control" placeholder="*Product price" autocomplete="off" formControlName="product_price" />
+	       <ul class="help-block">
+		        <li *ngIf="form.controls.product_price.product_price && form.controls.product_price.errors?.required">This field is required.</li>
+		        <li *ngIf="form.controls.product_price.dirty && form.controls.product_price.errors?.numericValidation">Must be a number</li>
+	        </ul>
+		</div>
+	<!-- end of product price input -->
+	</div>
+
+	<!-- product location input -->
+	<div class="form-group, col-md-4 col-md-offset-4">		
+		<label for="product_location">Location</label>
+		<div [ngClass]="{'has-success': form.controls.product_location.valid, 'has-error': form.controls.product_location.dirty && form.controls.product_location.errors}">
+			<input type="text" name="product_location" class="form-control" placeholder="Product location" autocomplete="off" formControlName="product_location" />
+	       <ul class="help-block">
+		        <li *ngIf="(form.controls.product_location.dirty && form.controls.product_location.errors?.minlength) || (form.controls.product_location.dirty && form.controls.product_location.errors?.maxlength)">Length between 4 & 40.</li>
+		        <li *ngIf="form.controls.product_location.dirty && form.controls.product_location.errors?.alphaNumericValidation">Must be a letter or number</li>
+	        </ul>
+		</div>
+	<!-- end of product name input -->
+	</div>
+
+	<!-- product id input -->
+	<div class="form-group, col-md-4 col-md-offset-4">			
+		<label for="product_id">ID</label>
+		<div [ngClass]="{'has-success': form.controls.product_id.valid, 'has-error': form.controls.product_id.dirty && form.controls.product_id.errors}">
+			<input type="text" name="product_id" class="form-control" placeholder="Product ID" autocomplete="off" formControlName="product_id" />
+	       <ul class="help-block">
+		        <li *ngIf="(form.controls.product_id.dirty && form.controls.product_id.errors?.minlength) || (form.controls.product_id.dirty && form.controls.product_id.errors?.maxlength)">Length between 4 & 40.</li>
+		        <li *ngIf="form.controls.product_id.dirty && form.controls.product_id.errors?.alphaNumericValidation">Must be a letter or number</li>
+	        </ul>
+		</div>
+    <!-- Submit Input -->
+    <div id="buttons">
+    	<button type="button" name="button" (click)="goBack()" class="btn btn-warning">Back</button>
+    	
+    	<button type="button" name="button" (click)="resetForm()" class="btn btn-primary">Reset</button>
+	
+  		<input [disabled]="!form.valid || processing" type="submit" class="btn btn-success" value="Add" />
+    </div>
+	<!-- end of product id input -->
+	</div>
+</form>
+<!-- product form end -->
+
+
+<!-- panel -->
+<div *ngIf="!newProduct" class="col-md-6 col-md-offset-3">
+  <!-- panel outer layer -->
+  <div class="panel panel-primary" *ngFor="let product of productPosts">
+
+    <!-- panel heading -->
+    <div class="panel-heading">
+      <h3 class="panel-title">{{product.product_name}}</h3>
+    </div>
+
+    <!-- panel body -->
+    <div class="panel-body">
+	    <p>
+	      <strong>Price :</strong> £{{ product.product_price }}
+	    </p>
+	    <p>
+	      <strong>Location :</strong> {{ product.product_location }}
+	    </p>
+	</div>
+    <!-- footer start -->
+    <div class="panel-footer">
+      <strong>Posted by: </strong>{{ product.createdBy }}
+      <br />
+      <strong>Date: </strong>{{ product.createdAt | date:'MMM dd, yyyy' }}
+	<!-- end of footer -->
+	</div>
+
+	<ul class="list-group">
+		<li class="list-group-item">
+			<button type="button" name="button" class="btn btn-sm btn-danger" (click)="createComment">Post Comment</button>
+	        <!-- dropdown for likes of product -->
+		    <div class="dropdown">
+		  	  <button type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy">
+		  		<span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 13
+		  	  </button>
+		  	<!-- dropdown for users that liked product -->
+		  	  <div class="dropdown-content">
+		  	      <a href="#">Dave</a>
+		  		  <a href="#">Steve</a>
+		  		  <a href="#">Barry</a>
+		  	  </div>
+		  	<!-- end of dropdown for likes of product -->
+		    </div>
+
+            <!-- edit button -->
+            <a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+      		<!-- delete button -->
+      		<a [routerLink]="['/delete-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Delete</button></a>
+<!-- 			<form>
+				<textarea name="comment" rows="3" cols="20" class="form-control"></textarea>
+				<button type="button" name="button" class="btn btn-sm btn-info">Post</button>
+				<button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
+			</form> -->
+		</li>
+	</ul>
+	<!-- end of panel outer layer -->
+  </div>
+<!-- end of panel -->
+</div>

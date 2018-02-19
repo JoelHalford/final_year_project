@@ -8,6 +8,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProductComponent } from './components/product/product.component';
+
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
 //end of component imports
 
 //array of angular 2 routes
@@ -18,19 +22,27 @@ const appRoutes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent // Dashboard Route
+    component: DashboardComponent, //dashboard Route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
   },  
   {
     path: 'register',
-    component: RegisterComponent // Register Route
+    component: RegisterComponent, //register Route
+    canActivate: [NotAuthGuard]   //if user is not logged in, can activate
   },  
   {
     path: 'login',
-    component: LoginComponent // Login Route
+    component: LoginComponent,     //login Route
+    canActivate: [NotAuthGuard]    //if user is not logged in, can activate
+  },
+  {
+    path: 'products',
+    component: ProductComponent  //product Rooute
   },  
   {
     path: 'profile',
-    component: ProfileComponent // Login Route
+    component: ProfileComponent, //login Route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
   },
   { path: '**', component: HomeComponent } // Anything else Route
 ];

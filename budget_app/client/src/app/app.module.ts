@@ -12,10 +12,15 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';  
 import { RegisterComponent } from './components/register/register.component'; 
 import { ProfileComponent } from './components/profile/profile.component'; 
-import { LoginComponent } from './components/login/login.component';    
+import { LoginComponent } from './components/login/login.component';   
+import { ProductComponent } from './components/product/product.component';  
 //end of component imports
 //start of service imports
-import { AuthService } from './services/auth.service';                      
+import { AuthService } from './services/auth.service';  
+import { ProductService } from './services/product.service';  
+import { AuthGuard } from './guards/auth.guard';                    
+import { NotAuthGuard } from './guards/notAuth.guard';
+                   
 //end of service imports 
 
 @NgModule({//configures the injector and compiler to help organize things
@@ -26,7 +31,8 @@ import { AuthService } from './services/auth.service';
     DashboardComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProductComponent
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,
@@ -34,7 +40,7 @@ import { AuthService } from './services/auth.service';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [AuthService], //dependency injection
+  providers: [AuthService, AuthGuard, NotAuthGuard, ProductService], //dependency injection
   bootstrap: [AppComponent] //declare bootstrap
 })
 export class AppModule {} //exports AppModule for use elsewhere 
