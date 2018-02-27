@@ -9,10 +9,13 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductComponent } from './components/product/product.component';
-
+import { EditProductComponent } from './components/product/edit-product/edit-product.component';
+import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';
+//end of component imports
+//start of authorisation
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
-//end of component imports
+//end of authorisation
 
 //array of angular 2 routes
 const appRoutes: Routes = [
@@ -37,8 +40,18 @@ const appRoutes: Routes = [
   },
   {
     path: 'products',
-    component: ProductComponent  //product Rooute
+    component: ProductComponent  //product route
   },  
+  {
+    path: 'edit-product/:id',
+    component: EditProductComponent, //edit product route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },  
+  {
+    path: 'delete-product/:id',
+    component: DeleteProductComponent, //delete product route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
   {
     path: 'profile',
     component: ProfileComponent, //login Route

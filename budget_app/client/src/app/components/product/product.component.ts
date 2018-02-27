@@ -128,7 +128,7 @@ export class ProductComponent implements OnInit {
           this.processing = false;
           this.checker = false;
           this.form.reset();
-        }, 3000);
+        }, 1500);
       }
     });
   }
@@ -158,5 +158,4 @@ export class ProductComponent implements OnInit {
 
     this.getAllProducts();
   }
-
 }

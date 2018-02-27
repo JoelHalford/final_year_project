@@ -27,15 +27,40 @@ export class ProductService {
   	});
   }
 
-  newProduct(product) {
+  newProduct(product) 
+  {//service for posting new product
   	this.createAuthHeaders();
   	return this.http.post(this.domain + 'product/newProduct', product, this.options).map(res => res.json());
   }
 
-  getAllProducts() {
+  getAllProducts() 
+  {//service for getting all products
     this.createAuthHeaders();
     return this.http.get(this.domain + 'product/allProducts', this.options).map(res => res.json());
+  }
 
+  getSingleProduct(id) 
+  {//service for getting single product
+    this.createAuthHeaders();
+    return this.http.get(this.domain + "product/singleProduct/" + id, this.options).map(res => res.json());
+  }
+
+  editProduct(product) 
+  {//service for editing product
+    this.createAuthHeaders();
+    return this.http.put(this.domain + 'product/updateProduct/', product, this.options).map(res => res.json());
+  }
+
+  deleteProduct(id)
+  {//service for deleting product
+    this.createAuthHeaders();
+    return this.http.delete(this.domain + 'product/deleteProduct/' + id, this.options).map(res => res.json());
+  }
+
+  getAllUserProducts()
+  {
+    this.createAuthHeaders();
+    return this.http.get(this.domain + 'dashboard/allUserProducts', this.options).map(res => res.json());
   }
 
 }

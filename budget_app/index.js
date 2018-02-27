@@ -9,6 +9,7 @@ const config = require('./config/database'); //config for mongoose
 const path = require('path'); //package for filepaths
 const auth = require('./routes/auth')(router);//initialise authentication router
 const products = require('./routes/products')(router);//initialise products router
+const dashboard = require('./routes/dashboard')(router);//initialise products router
 const bodyParser =require('body-parser');
 const cors = require('cors');//enables cross-platform communication between frontend and backend
 
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist/'));
 app.use('/auth', auth);
 app.use('/product', products);
+app.use('/dashboard', dashboard);
 
 //connects server to angular2 index.html
 app.get('*', (req, res) => {

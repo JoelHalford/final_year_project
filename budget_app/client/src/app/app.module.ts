@@ -1,6 +1,7 @@
 //start of module imports
 import { BrowserModule } from '@angular/platform-browser';    //ngModule for browser
 import { NgModule } from '@angular/core';                     //NgModule decorator and metadata                 
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';         //ngModule for reactive forms
 import { HttpModule } from '@angular/http';                   //
 import { AppRoutingModule } from './app-routing.module';      //
@@ -13,11 +14,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component'; 
 import { ProfileComponent } from './components/profile/profile.component'; 
 import { LoginComponent } from './components/login/login.component';   
-import { ProductComponent } from './components/product/product.component';  
+import { ProductComponent } from './components/product/product.component';
+import { EditProductComponent } from './components/product/edit-product/edit-product.component';
+import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';  
 //end of component imports
 //start of service imports
 import { AuthService } from './services/auth.service';  
-import { ProductService } from './services/product.service';  
+import { ProductService } from './services/product.service';
+
 import { AuthGuard } from './guards/auth.guard';                    
 import { NotAuthGuard } from './guards/notAuth.guard';
                    
@@ -32,10 +36,13 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    ProductComponent
+    ProductComponent,
+    EditProductComponent,
+    DeleteProductComponent
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpModule,
     AppRoutingModule
