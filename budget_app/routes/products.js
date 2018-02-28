@@ -194,7 +194,7 @@ module.exports = (router) => {
 	});
 
 	router.delete('/deleteProduct/:id', (req,res) =>
-	{
+	{//route for deleting product
 		if (!req.params.id)
 		{//if no ID was provided
 			res.json({ success: false, message: 'No ID given.'});
@@ -247,6 +247,123 @@ module.exports = (router) => {
 					})
 				}
 			})
+		}
+	});
+
+	router.put('/likeProduct', (req, res) => {
+		if (!req.body.id)
+		{
+			res.json ({ success: false, message: 'No product id provided.' });
+		}
+		else
+		{
+			Product.findOne({ _id: req.body.id }, (err, product) =>
+			{
+				if (err)
+				{
+					res.json ({ success: false, message: 'Not a valid product id.' });
+				}
+				else if (!product)
+				{
+					res.json ({ success: true, message: 'The product was not found.' });
+				}
+				else
+				{
+					User.findOne({ _id: req.decoded.userId }, (err, user) =>
+					{
+						if (err)
+						{
+							res.json ({ success: false, message: err });
+						}
+						else if (!user)
+						{
+							res.json ({ success: false, message: 'The user was not found.' });
+						}
+						else if (user.username === product.createdBy)
+						{
+							res.json ({ success: false, message: 'Cannot like your own product post.' });
+						}
+						else if (product.likedBy.includes(user.username))
+						{
+							res.json ({ success: false, message: 'You already liked the post.' });
+						}
+						else
+						{
+							product.likes++;
+							product.likedBy.push(user.username);
+							product.save((err) =>
+							{
+								if (err)
+								{
+									res.json ({ success: false, message: err });
+								}
+								else
+								{
+									res.json ({ success: true, message: 'Product liked.' });
+								}
+							});
+						}
+					});
+				}
+			})
+		}
+	});
+
+	router.post('/comment', (req, res) =>
+	{
+		if (!req.body.comment)
+		{
+			res.json ({ success: false, message: "No message provided." });
+		}
+		else if (!req.body.id)
+		{
+			res.json ({ success: false, message: "No ID provided." });
+		}
+		else
+		{
+			Product.findOne({ _id: req.body.id}, (err, product) =>
+			{
+				if (err)
+				{
+					res.json ({ success: false, message: "Invalid product ID provided." });
+				}
+				else if (!product)
+				{
+					res.json ({ success: false, message: "Product not found." });
+				}
+				else
+				{
+					User.findOne({ _id: req.decoded.userId }, (err, user) =>
+					{
+						if (err)
+						{
+							res.json ({ success: false, message: "Error found." });
+						}
+						else if (!user)
+						{
+							res.json ({ success: false, message: "User not found." });
+						}
+						else
+						{
+							product.comments.push({
+								comment: req.body.comment,
+								commentator: user.username
+							});
+							product.save((err) =>
+							{
+								if (err)
+								{
+									res.json ({ success: false, message: "Error found." });
+								}
+								else
+								{
+									res.json ({ success: true, message: "Message saved." });
+								}
+							});
+						}
+					});
+				}
+			});
 		}
 	});
 return router;

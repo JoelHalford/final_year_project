@@ -58,9 +58,25 @@ export class ProductService {
   }
 
   getAllUserProducts()
-  {
+  {//service to return all products
     this.createAuthHeaders();
     return this.http.get(this.domain + 'dashboard/allUserProducts', this.options).map(res => res.json());
   }
 
+  likeProduct(id)
+  {//service for liking a product
+    const productData = { id: id };
+    return this.http.put(this.domain + 'product/likeProduct/', productData, this.options).map(res => res.json());
+  }
+
+  newComment(id, comment)
+  {//service for adding a new comment
+    this.createAuthHeaders();
+    const productData =
+    {
+      id: id,
+      comment: comment
+    }
+    return this.http.post(this.domain + 'product/comment', productData, this.options).map(res => res.json());
+  }
 }

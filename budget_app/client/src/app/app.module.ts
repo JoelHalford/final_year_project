@@ -24,6 +24,7 @@ import { ProductService } from './services/product.service';
 
 import { AuthGuard } from './guards/auth.guard';                    
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
                    
 //end of service imports 
 
@@ -38,7 +39,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     ProfileComponent,
     ProductComponent,
     EditProductComponent,
-    DeleteProductComponent
+    DeleteProductComponent,
+    PublicProfileComponent
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,

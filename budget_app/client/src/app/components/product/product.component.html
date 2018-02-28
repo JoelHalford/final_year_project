@@ -1,4 +1,4 @@
-<h1 class="page-header">Products</h1>
+<h1 class="page-header">Product Feed</h1>
 
 <div class="row show-hide-message" *ngIf="checker">
 	<div [ngClass]="checkerClass">
@@ -6,16 +6,18 @@
 	</div>
 </div>
 
-<!-- New Post Button -->
+
+<!-- new product button & reload page button-->
 <div class="newPostReload">
 	<button type="button" name="button" class="btn btn-warning" *ngIf="!newProduct" (click)="newProductForm()">New Product</button>
 
 	<button [disabled]="loadingProducts" type="button" name="button" class="btn btn-default" *ngIf="!newProduct" (click)="reloadProducts()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reload</button>
 </div>
 
-<br /><br />
+<br />
+<br />
 
-<!-- product form -->
+<!-- add product form -->
 <form [formGroup]="form" name="productForm" class="productForm" (submit)="onProductSubmit()" *ngIf="newProduct">
 	<!-- product name input -->
 	<h2> Add New Product </h2>	
@@ -42,7 +44,7 @@
 			<input type="text" name="product_price" class="form-control" placeholder="*Product price" autocomplete="off" formControlName="product_price" />
 	       <ul class="help-block">
 		        <li *ngIf="form.controls.product_price.product_price && form.controls.product_price.errors?.required">This field is required.</li>
-		        <li *ngIf="form.controls.product_price.dirty && form.controls.product_price.errors?.numericValidation">Must be a number</li>
+		        <li *ngIf="form.controls.product_price.dirty && form.controls.product_price.errors?.numericValidation">Must be a number.</li>
 	        </ul>
 		</div>
 	<!-- end of product price input -->
@@ -85,62 +87,100 @@
 <!-- product form end -->
 
 
-<!-- panel -->
-<div *ngIf="!newProduct" class="col-md-6 col-md-offset-3">
-  <!-- panel outer layer -->
-  <div class="panel panel-primary" *ngFor="let product of productPosts">
+<!-- panel start | panel for showing products posted by users -->
+<div *ngIf="!newProduct">
+  <!-- panel outer layer start -->
+  <div class="panel panel-primary panel-products" *ngFor="let product of productPosts" style="width: 80%; text-align: center; margin: 1em auto">
 
-    <!-- panel heading -->
+    <!-- panel title start -->
     <div class="panel-heading">
-      <h3 class="panel-title">{{product.product_name}}</h3>
+      <h3 class="panel-title"><strong>{{ product.product_name }}</strong>
+      	<span style="font-size: 0.8em"><br/> posted by <em><a class="creator" [routerLink]="['/user/', product.createdBy]">{{ product.createdBy }}</a></em></span> 
+      	<span style="font-size: 0.6em"> on <em>{{ product.createdAt | date: 'dd MMM, yyyy' }}</em></span> 
+      </h3>
     </div>
-
-    <!-- panel body -->
-    <div class="panel-body">
-	    <p>
-	      <strong>Price :</strong> £{{ product.product_price }}
-	    </p>
-	    <p>
-	      <strong>Location :</strong> {{ product.product_location }}
-	    </p>
-	</div>
-    <!-- footer start -->
+    <!-- panel title end -->
+    <!-- panel footer start -->
     <div class="panel-footer">
-      <strong>Posted by: </strong>{{ product.createdBy }}
+      <strong>Price : </strong>£{{ product.product_price | number : '1.2-2'}}
       <br />
-      <strong>Date: </strong>{{ product.createdAt | date:'MMM dd, yyyy' }}
-	<!-- end of footer -->
-	</div>
+      <strong>Location : </strong>{{ product.product_location }}
+      <br />
 
-	<ul class="list-group">
-		<li class="list-group-item">
-			<button type="button" name="button" class="btn btn-sm btn-danger" (click)="createComment">Post Comment</button>
-	        <!-- dropdown for likes of product -->
-		    <div class="dropdown">
-		  	  <button type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy">
-		  		<span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 13
-		  	  </button>
-		  	<!-- dropdown for users that liked product -->
-		  	  <div class="dropdown-content">
-		  	      <a href="#">Dave</a>
-		  		  <a href="#">Steve</a>
-		  		  <a href="#">Barry</a>
-		  	  </div>
-		  	<!-- end of dropdown for likes of product -->
-		    </div>
+      <div *ngIf="username === product.createdBy">
+        <div class="dropdown">
+	        <!-- like button -->
+	        <button type="button" name="button" class="btn btn-sm btn-success">Who liked your post? {{ product.likes }}</button>
+	        <!-- dropdown menu for users that liked product -->
+	        <div class="dropdown-content">
+	          <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>
+	        </div>
+      	</div>
+      </div>
+      <!-- drop for likes  -->
+      <div class="dropdown">
+        <!-- like button -->
+        <button [disabled]="product.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy" (click)="likeproduct(product._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Like: {{ product.likes }}</button>
+        <!-- dropdown menu for users that liked product -->
+        <div class="dropdown-content">
+          <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>
+        </div>
+      </div>
+    </div>
+    <!-- panel footer end -->
+    <!-- comment start -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <!-- comment button -->
+        <button type="button" name="button" class="btn btn-sm btn-success" (click)="createComment(product._id)" [disabled]="additionalComment.indexOf(product._id) > -1">Post Comment</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      	<!-- edit button -->
+      	<a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+        <br />
+        <div *ngIf="additionalComment.indexOf(product._id) > -1">
+          <!-- comment form start -->
+          <form [formGroup]="commentForm" style="padding-top: 0.5em">
+            <!-- comment input -->
+            <textarea name="comment" rows="10" cols="30" class="form-control" formControlName="comment"></textarea>
+            <!-- validation for comment -->
+            <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
+              <ul class="help-block">
+                <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">Field is required.</li>
+                <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) ||(commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment must be between 1 and 150 characters.</li>
+              </ul>
+            </div>
+            <!-- post comment button -->
+            <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="newComment(product._id)">Post</button>
+            <!-- cancel button -->
+            <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelComment(product._id)">Cancel</button>
+          </form>
+          <!-- comment form end -->
+        </div>
+        <!-- show comments -->
+        <li *ngIf="enabledComments.indexOf(product._id) === -1 && product.comments.length > 0" class="list-group-item">
+          <span (click)="showComments(product._id)">
+            Show comments&nbsp;&nbsp;
+            <div class="glyphicon glyphicon-comment"></div>
+          </span>
+        </li>
 
-            <!-- edit button -->
-            <a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-      		<!-- delete button -->
-      		<a [routerLink]="['/delete-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Delete</button></a>
-<!-- 			<form>
-				<textarea name="comment" rows="3" cols="20" class="form-control"></textarea>
-				<button type="button" name="button" class="btn btn-sm btn-info">Post</button>
-				<button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
-			</form> -->
-		</li>
-	</ul>
-	<!-- end of panel outer layer -->
+        <!-- hide comments -->
+        <li *ngIf="enabledComments.indexOf(product._id) > -1" class="list-group-item">
+          <span (click)="hideComments(product._id)">
+            Hide Comments&nbsp;&nbsp;
+            <div class="glyphicon glyphicon-comment"></div>
+          </span>
+        </li>
+
+        <!-- comment with commentator -->
+        <div *ngIf="enabledComments.indexOf(product._id) > -1">
+          <li *ngFor="let comment of product.comments" class="list-group-item">
+            <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
+          </li>
+        </div>
+    </ul>
+    <!-- comment end -->
+
   </div>
-<!-- end of panel -->
+  <!-- panel outer layer end -->
 </div>
+<!-- panel end -->

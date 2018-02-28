@@ -89,23 +89,54 @@ module.exports = (router) => {
      }
    });
 
-	//intercept headers/get user profile
-  router.get('/profile', (req, res) => {
-    //search for user in database
+  //intercept headers/get user profile
+  router.get('/profile', (req, res) => 
+  {//search for user in database
     User.findOne({ _id: req.decoded.userId }).select('username').exec((err, user) => {
       //check if error connecting
-      if (err) {
+      if (err) 
+      {
         res.json({ success: false, message: err }); // Return error
-      } else {
+      } 
+      else 
+      {
         //check if user was found
-        if (!user) {
-          res.json({ success: false, message: 'User not found' }); // Return error, user was not found in db
-        } else {
-          res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
+        if (!user) 
+        {// Return error, user was not found in db
+          res.json({ success: false, message: 'User not found' });
+        } else 
+        {// Return success, send user object to frontend for profile
+          res.json({ success: true, user: user });
         }
       }
     });
   });
+
+  router.get('/publicProfile/:username', (req, res) =>
+  {
+  	if (!req.params.username)
+  	{
+  		res.json({ success: false, message: 'No username provided' });
+  	}
+  	else
+  	{
+  		User.findOne({ username: req.params.username }).select('username').exec((err, user) =>
+  		{
+  			if (err)
+  			{// Return error
+  				res.json({ success: false, message: err }); 
+  			}
+  			else if (!user)
+  			{// Return error, user was not found
+  				res.json({ success: false, message: 'User not found' });
+  			}
+  			else
+  			{//if no error
+  				res.json({ success: true, user: user });
+  			}
+  		})
+  	}
+  })
 
   return router; // Return router object to main index.js
 }

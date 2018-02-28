@@ -2,4 +2,7 @@
 	margin: 0 auto;
 	text-align: center;
 	padding: 0.5em;
+	color: white;
 }
+
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 4em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }

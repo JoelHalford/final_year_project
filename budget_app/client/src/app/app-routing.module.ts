@@ -11,6 +11,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ProductComponent } from './components/product/product.component';
 import { EditProductComponent } from './components/product/edit-product/edit-product.component';
 import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 //end of component imports
 //start of authorisation
 import { AuthGuard } from './guards/auth.guard';
@@ -55,6 +56,11 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent, //login Route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
+    path: 'user/:username',
+    component: PublicProfileComponent, //login Route
     canActivate: [AuthGuard]       //if user is logged in, can activate
   },
   { path: '**', component: HomeComponent } // Anything else Route

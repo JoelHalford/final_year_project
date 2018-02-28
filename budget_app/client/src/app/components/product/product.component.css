@@ -67,6 +67,31 @@ h1 {
     text-align: center;
 }
 
-.page-header {
+.page-header, h2, label {
     color: #d4d4d6;
 }
+
+.panel-products {
+    font-size: 1.5em;
+}
+
+.panel-title {
+    font-size: 1.2em;
+}
+
+.help-block {
+    font-size: 1.5em;
+    color: #e5682d;
+}
+
+button {
+    font-size: 0.8em;
+}
+
+.creator {
+    color: white;
+    text-decoration: underline;
+}
+
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 7em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+

@@ -4,8 +4,8 @@ import 'rxjs/add/operator/map';		//allows binding
 import { tokenNotExpired } from 'angular2-jwt';	//can check if user is logged in
 
 @Injectable()
-export class AuthService {
-
+export class AuthService 
+{
 	domain = "http://localhost:8080/"; //dev domain
 	authToken;
 	user;
@@ -16,7 +16,8 @@ export class AuthService {
   ) { }
 
   //enables users to access specific areas
-  createAuthHeaders() {
+  createAuthHeaders() 
+  {
   	this.grabToken();
   	this.options = new RequestOptions({
   	  headers: new Headers({
@@ -27,17 +28,20 @@ export class AuthService {
   }
 
   //grabs the users token
-  grabToken() {
+  grabToken() 
+  {
   	const token = localStorage.getItem('token');
   	this.authToken = token;
   }
   //register users
-  registerUser(user) {
+  registerUser(user) 
+  {
   	return this.http.post(this.domain + 'auth/register', user).map(res => res.json());
   }
 
   //login users
-  login(user) {
+  login(user) 
+  {
   	return this.http.post(this.domain + 'auth/login', user).map(res => res.json());
   }
   //allows users to logout
@@ -54,12 +58,20 @@ export class AuthService {
 	this.user = user;
   }
   //retrieves users profile
-  getProfile() {
+  getProfile() 
+  {
 		this.createAuthHeaders();
 		return this.http.get(this.domain + 'auth/profile', this.options).map(res => res.json());
   }
   //checks if user is logged in
-  loggedIn() {
+  loggedIn() 
+  {
   	return tokenNotExpired();
+  }
+  //retrieves a users public profile
+  getPublicProfile(username)
+  {
+    this.createAuthHeaders();
+    return this.http.get(this.domain + 'auth/publicProfile/' + username, this.options).map(res => res.json());
   }
 }

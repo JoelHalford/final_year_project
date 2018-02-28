@@ -1,0 +1,17 @@
+<h1 class="page-header">{{username}}s Profile</h1>
+
+<div class="row show-hide-message" *ngIf="checker">
+	<div [ngClass]="checkerClass">
+		{{ checker }}
+	</div>
+</div>
+
+<ul class="list-group" *ngIf="found">
+	<li class="list-group-item"><strong>Username: </strong>{{username}}</li>
+	<br/>
+	<li class="list-group-item"><strong>Overall likes goes here</strong></li>
+	<br/>
+	<li class="list-group-item"><strong>List of users products goes here</strong></li>
+
+</ul>
+

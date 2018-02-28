@@ -1,4 +1,4 @@
-<h1 class="page-header" style="text-align: center">Dashboard here!</h1>
+<h1 class="page-header" style="text-align: center">Dashboard</h1>
 
 <!-- panel -->
 <div class="col-md-6 col-md-offset-3">
@@ -13,49 +13,22 @@
 	    </div>
 	    <!-- panel body -->
 	    <div class="panel-body">
-		    <p>
-		      <strong>Price :</strong> £{{ product.product_price }}
-		    </p>
-		    <p>
+		      <strong>Price :</strong> £{{ product.product_price | number : '1.2-2'}}
+		      <br />
 		      <strong>Location :</strong> {{ product.product_location }}
-		    </p>
+		      <br />
+		      <strong>ID :</strong> {{ product.product_id }}
+		      <br />
+		      <strong>Likes :</strong> 13
+		      <br/>
+		      <strong>Date: </strong>{{ product.createdAt | date:'dd MMM, yyyy' }}
 		</div>
 	    <!-- footer start -->
 	    <div class="panel-footer">
-	      <strong>Posted by: </strong>{{ product.createdBy }}
-	      <br />
-	      <strong>Date: </strong>{{ product.createdAt | date:'dd MMM, yyyy' }}
+			<!-- edit button -->
+	        <a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
 		<!-- end of footer -->
 		</div>
-
-		<ul class="list-group">
-			<li class="list-group-item">
-				<button type="button" name="button" class="btn btn-sm btn-danger" (click)="createComment">Post Comment</button>
-		        <!-- dropdown for likes of product -->
-			    <div class="dropdown">
-			  	  <button type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy">
-			  		<span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 13
-			  	  </button>
-			  	<!-- dropdown for users that liked product -->
-			  	  <div class="dropdown-content">
-			  	      <a href="#">Dave</a>
-			  		  <a href="#">Steve</a>
-			  		  <a href="#">Barry</a>
-			  	  </div>
-			  	<!-- end of dropdown for likes of product -->
-			    </div>
-
-	            <!-- edit button -->
-	            <a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-	      		<!-- delete button -->
-	      		<a [routerLink]="['/delete-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Delete</button></a>
-	<!-- 			<form>
-					<textarea name="comment" rows="3" cols="20" class="form-control"></textarea>
-					<button type="button" name="button" class="btn btn-sm btn-info">Post</button>
-					<button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
-				</form> -->
-			</li>
-		</ul>
 		<!-- end of panel outer layer -->
 	  </div>
 	  <!-- Budget checking -->
@@ -63,14 +36,14 @@
 	  	<div class="panel panel-primary">
 		  	<div class="panel-heading">Total spending this month</div>
 		  	<div class="panel-body">
-				<p><strong>Budget: </strong> £{{ priceBudget }}</p>
-		  		<p><strong>Total Spent: </strong>£{{ priceSpent + product.product_price}}</p>
+				<p><strong>Budget: </strong> £{{ priceBudget  | number : '1.2-2'}}</p>
+		  		<p><strong>Total Spent: </strong>£{{ priceSpent + product.product_price | number : '1.2-2'}}</p>
 		  		<div *ngIf="(priceBudget < priceSpent)">
-		  			<p><strong>Difference: </strong>£{{ priceBudget - (priceSpent + product.product_price) }}</p>
+		  			<p><strong>Difference: </strong>£{{ priceBudget - (priceSpent + product.product_price) | number : '1.2-2' }}</p>
 		  			<p>You've spent too much!</p>
 		  		</div>
 		  		<div *ngIf="(priceSpent < priceBudget)">
-		  			<p><strong>Difference: </strong>£{{ priceBudget - (priceSpent + product.product_price) }}</p>
+		  			<p><strong>Difference: </strong>£{{ priceBudget - (priceSpent + product.product_price) | number : '1.2-2' }}</p>
 		  			<p>You're safe!</p>
 		  		</div>
 		  	</div>
