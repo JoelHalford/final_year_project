@@ -62,8 +62,43 @@
     padding: 1em;
 }
 
+.edit-button {
+    float: right;
+    margin: 0.5em;
+}
+
 h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 4em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
 
 .page-header {
     color: #d4d4d6;
+}
+
+.panel-heading {
+    font-size: 1.3em;
+    padding: -0.5em;
+}
+.panel-body {
+    font-size: 1.2em;
+}
+
+.budgetForm {
+    margin-bottom: 5em;
+}
+
+h4, h3 {
+    color: white;
+}
+
+.viewMessage {
+    padding: 2em;
+    color: #d4d4d6;
+}
+
+#editbutton {
+    font-size: 0.5em;
+    max-height: 1px;
+}
+
+#budgetHeader, #purchaseHeader, #purchaseHeader2, .viewMessage {
+    text-align: center;
 }

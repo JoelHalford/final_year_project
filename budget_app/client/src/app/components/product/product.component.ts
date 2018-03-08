@@ -21,6 +21,7 @@ export class ProductComponent implements OnInit {
   productPosts;
   additionalComment = [];
   enabledComments = [];
+  show = 3;
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -248,5 +249,15 @@ export class ProductComponent implements OnInit {
   	});
     //grab all products on initialisation
     this.getAllProducts();
+  }
+
+  showMore()
+  {
+    this.show += 5;
+  }
+
+  getShow()
+  {
+    return this.show;
   }
 }

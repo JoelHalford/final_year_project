@@ -9,9 +9,9 @@
 
 <!-- new product button & reload page button-->
 <div class="newPostReload">
-	<button type="button" name="button" class="btn btn-warning" *ngIf="!newProduct" (click)="newProductForm()">New Product</button>
+	<button type="button" name="button" class="btn btn-warning" id="newProductButton" *ngIf="!newProduct" (click)="newProductForm()">New Product</button>
 
-	<button [disabled]="loadingProducts" type="button" name="button" class="btn btn-default" *ngIf="!newProduct" (click)="reloadProducts()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reload</button>
+	<button [disabled]="loadingProducts" type="button" name="button" class="btn btn-default" id="refreshProductButton"  *ngIf="!newProduct" (click)="reloadProducts()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Reload</button>
 </div>
 
 <br />
@@ -41,7 +41,7 @@
 		<label for="product_price">Price</label>
 
 		<div [ngClass]="{'has-success': form.controls.product_price.valid, 'has-error': form.controls.product_price.dirty && form.controls.product_price.errors}">
-			<input type="text" name="product_price" class="form-control" placeholder="*Product price" autocomplete="off" formControlName="product_price" />
+			<input type="number" name="product_price" class="form-control" placeholder="*Product price" autocomplete="off" formControlName="product_price" />
 	       <ul class="help-block">
 		        <li *ngIf="form.controls.product_price.product_price && form.controls.product_price.errors?.required">This field is required.</li>
 		        <li *ngIf="form.controls.product_price.dirty && form.controls.product_price.errors?.numericValidation">Must be a number.</li>
@@ -75,11 +75,11 @@
 		</div>
     <!-- Submit Input -->
     <div id="buttons">
-    	<button type="button" name="button" (click)="goBack()" class="btn btn-warning">Back</button>
+    	<button type="button" name="button"  id="backButton" (click)="goBack()" class="btn btn-warning">Back</button>
     	
-    	<button type="button" name="button" (click)="resetForm()" class="btn btn-primary">Reset</button>
+    	<button type="button" name="button"  id="resetButton" (click)="resetForm()" class="btn btn-primary">Reset</button>
 	
-  		<input [disabled]="!form.valid || processing" type="submit" class="btn btn-success" value="Add" />
+  		<input [disabled]="!form.valid || processing" type="submit"  id="addButton" class="btn btn-success" value="Add" />
     </div>
 	<!-- end of product id input -->
 	</div>
@@ -90,11 +90,11 @@
 <!-- panel start | panel for showing products posted by users -->
 <div *ngIf="!newProduct">
   <!-- panel outer layer start -->
-  <div class="panel panel-primary panel-products" *ngFor="let product of productPosts" style="width: 80%; text-align: center; margin: 1em auto">
+  <div class="panel panel-primary panel-products" *ngFor="let product of productPosts | slice:0:show let i=index; let last = last" style="width: 80%; text-align: center; margin: 1em auto">
 
     <!-- panel title start -->
     <div class="panel-heading">
-      <h3 class="panel-title"><strong>{{ product.product_name }}</strong>
+      <h3 class="panel-title"><strong>{{ product.product_name }}&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-size: 0.7em">Likes: {{ product.likes }}</span>
       	<span style="font-size: 0.8em"><br/> posted by <em><a class="creator" [routerLink]="['/user/', product.createdBy]">{{ product.createdBy }}</a></em></span> 
       	<span style="font-size: 0.6em"> on <em>{{ product.createdAt | date: 'dd MMM, yyyy' }}</em></span> 
       </h3>
@@ -110,7 +110,7 @@
       <div *ngIf="username === product.createdBy">
         <div class="dropdown">
 	        <!-- like button -->
-	        <button type="button" name="button" class="btn btn-sm btn-success">Who liked your post? {{ product.likes }}</button>
+	        <button type="button" name="button" class="btn btn-sm btn-success">Who liked your post?</button>
 	        <!-- dropdown menu for users that liked product -->
 	        <div class="dropdown-content">
 	          <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>
@@ -118,9 +118,9 @@
       	</div>
       </div>
       <!-- drop for likes  -->
-      <div class="dropdown">
+      <div class="dropdown" *ngIf="username != product.createdBy">
         <!-- like button -->
-        <button [disabled]="product.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy" (click)="likeproduct(product._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Like: {{ product.likes }}</button>
+        <button [disabled]="product.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy" (click)="likeProduct(product._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Like</button>
         <!-- dropdown menu for users that liked product -->
         <div class="dropdown-content">
           <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>
@@ -149,7 +149,7 @@
               </ul>
             </div>
             <!-- post comment button -->
-            <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="newComment(product._id)">Post</button>
+            <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info"(click)="newComment(product._id)">Post</button>
             <!-- cancel button -->
             <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelComment(product._id)">Cancel</button>
           </form>
@@ -174,13 +174,18 @@
         <!-- comment with commentator -->
         <div *ngIf="enabledComments.indexOf(product._id) > -1">
           <li *ngFor="let comment of product.comments" class="list-group-item">
-            <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
+            <strong><a [routerLink]="['/user/', comment.commentator]">{{ comment.commentator }}</a>:</strong> {{ comment.comment }}
           </li>
         </div>
     </ul>
     <!-- comment end -->
-
+    <div *ngIf="last">
+      <div id="last" *ngIf="i + 1 != productPosts.length">
+        <button *ngIf="getShow()" (click)="showMore()">More</button>
+      </div>
+    </div>
   </div>
   <!-- panel outer layer end -->
 </div>
 <!-- panel end -->
+<div id="bottom"></div>

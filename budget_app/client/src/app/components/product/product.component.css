@@ -93,5 +93,51 @@ button {
     text-decoration: underline;
 }
 
-h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 7em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+.page-header{
+    text-align: center;
+    color: #d4d4d6;
+}
 
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 4em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+
+#newProductButton {
+    margin-top: 2em;
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#refreshProductButton {
+    margin-top: 2em;
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#backButton {
+    padding: 1em;
+    font-size:1.2em;
+    float: left;
+}
+
+#resetButton {
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#addButton {
+    padding: 1em;
+    font-size:1.2em;
+    float: right;
+}
+
+input {
+    padding: 1.5em;
+    font-size: 1.3em;
+}
+
+label {
+    font-size: 1.5em;
+}
+
+#bottom {
+    margin-bottom: 5em;
+}

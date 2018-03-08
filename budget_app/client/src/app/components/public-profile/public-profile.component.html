@@ -8,10 +8,34 @@
 
 <ul class="list-group" *ngIf="found">
 	<li class="list-group-item"><strong>Username: </strong>{{username}}</li>
+	<br/>	
+	<li class="list-group-item">
+		<strong>Total likes: </strong> {{ overallLikes }} 
+	</li>
 	<br/>
-	<li class="list-group-item"><strong>Overall likes goes here</strong></li>
+	<li class="list-group-item">
+		<strong>Total posts: </strong>{{ numOfPosts() }}
+	</li>
 	<br/>
-	<li class="list-group-item"><strong>List of users products goes here</strong></li>
-
+	<table class="table table-striped">
+		<thead>
+			<tr class="info">
+				<th>#</th>
+				<th>Name</th>			
+				<th>Price</th>			
+				<th>Location</th>			
+				<th>Likes</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="success" *ngFor="let product of productPosts; let i = index">					
+				<td>{{ i+1 }}</td>
+				<td>{{ product.product_name }}</td>
+				<td>£{{ product.product_price | number : '1.2-2'}}</td>
+				<td>{{ product.product_location }}</td>
+				<td>{{ product.likes }}</td>
+			</tr>
+		</tbody>
+	</table>
 </ul>
 

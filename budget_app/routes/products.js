@@ -1,5 +1,5 @@
-const User = require('../models/user'); //import user model schema
-const Product = require('../models/product'); //import product model schema
+const User = require('../models/user'); 		//import user model schema
+const Product = require('../models/product');   //import product model schema
 const jwt = require('jsonwebtoken');
 const config = require('../config/database'); //import database config
 
@@ -366,5 +366,6 @@ module.exports = (router) => {
 			});
 		}
 	});
+
 return router;
 };

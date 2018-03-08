@@ -57,12 +57,6 @@ export class ProductService {
     return this.http.delete(this.domain + 'product/deleteProduct/' + id, this.options).map(res => res.json());
   }
 
-  getAllUserProducts()
-  {//service to return all products
-    this.createAuthHeaders();
-    return this.http.get(this.domain + 'dashboard/allUserProducts', this.options).map(res => res.json());
-  }
-
   likeProduct(id)
   {//service for liking a product
     const productData = { id: id };
@@ -79,4 +73,16 @@ export class ProductService {
     }
     return this.http.post(this.domain + 'product/comment', productData, this.options).map(res => res.json());
   }
+
+  getAllBudgets() 
+  {//service for getting all products
+    this.createAuthHeaders();
+    return this.http.get(this.domain + 'dashboard/allBudgets', this.options).map(res => res.json());
+  }
+
+  newBudget(budget)
+  {//service for adding a new comment
+    this.createAuthHeaders();
+    return this.http.post(this.domain + 'dashboard/newBudget', budget, this.options).map(res => res.json());
+  } 
 }
