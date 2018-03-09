@@ -5,12 +5,12 @@
   <div>
     <a *ngIf="!authService.loggedIn()" routerLink="/register" class="btn btn-primary">Register</a>
     <br/>
-    <a *ngIf="!authService.loggedIn()" routerLink="/login" class="btn btn-default">Login</a>
+    <a *ngIf="!authService.loggedIn()" routerLink="/login" class="btn btn-warning">Login</a>
     <br/>
-    <a *ngIf="authService.loggedIn()" routerLink="/products" class="btn btn-info">View Products</a>
+    <a *ngIf="authService.loggedIn()" routerLink="/products" class="btn btn-primary">View Products</a>
     <br/>
     <a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="btn btn-info">View Dashboard</a>
     <br/>
-    <a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="btn btn-info">View Profile</a>
+    <a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="btn btn-warning">View Profile</a>
   </div>
 </div>

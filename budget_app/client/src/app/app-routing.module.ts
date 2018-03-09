@@ -41,7 +41,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'products',
-    component: ProductComponent  //product route
+    component: ProductComponent,  //product route
+    canActivate: [AuthGuard]    //if user is not logged in, can activate
   },  
   {
     path: 'edit-product/:id',

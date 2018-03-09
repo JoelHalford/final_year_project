@@ -30,6 +30,7 @@
     "express": "^4.15.3",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.0",
-    "mongoose-unique-validator": "^2.0.0"
+    "mongoose-unique-validator": "^2.0.0",
+    "ngx-infinite-scroll": "^0.8.3"
   }
 }

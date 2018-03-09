@@ -98,7 +98,7 @@ module.exports = (router) => {
 		else
 		{//if id was provided, find in database
 			Product.findOne({ _id: req.params.id }, (err, product) => 
-				{//find single product in database
+			{//find single product in database
 				if (err)
 				{//if error, not a valid ID
 					res.json({ success: false, message: 'Not a valid product ID.' });
@@ -110,7 +110,7 @@ module.exports = (router) => {
 				else
 				{//if no errors found
 					User.findOne({ _id: req.decoded.userId }, (err, user) => 
-						{//find logged in user
+					{//find logged in user
 						if (err) 
 						{//if any errors finding user
 							res.json({ success: false, message: err});

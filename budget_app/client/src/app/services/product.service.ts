@@ -85,4 +85,10 @@ export class ProductService {
     this.createAuthHeaders();
     return this.http.post(this.domain + 'dashboard/newBudget', budget, this.options).map(res => res.json());
   } 
+
+  editBudget(budget) 
+  {//service for editing budget
+    this.createAuthHeaders();
+    return this.http.put(this.domain + 'dashboard/updateBudget', budget, this.options).map(res => res.json());
+  }
 }

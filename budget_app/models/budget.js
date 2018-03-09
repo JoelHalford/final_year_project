@@ -32,6 +32,9 @@ const budgetSchema = new Schema({//setup for user schema
 		type: Number,
 		required: true,
 		validate: budgetValidators
+	},
+	budget_spent: {
+		type: Number
 	}
 });
 

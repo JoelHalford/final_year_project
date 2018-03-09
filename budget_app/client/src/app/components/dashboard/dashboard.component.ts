@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
   month;
   year;
   newMonth;
+  budgetID = 0;
+  budget;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -83,8 +85,7 @@ export class DashboardComponent implements OnInit {
       {
         if (data.budgets[i].username == this.username)
         {
-          this.budgetPosts.push(data.budgets[i]); 
-          console.log(this.budgetPosts);
+          this.budgetPosts.push(data.budgets[i]);
         }
       }
     }, 50);
@@ -109,8 +110,6 @@ export class DashboardComponent implements OnInit {
       username: this.username,
       budget_price: this.form.get('budget_price').value
     }
-
-    console.log(budget);
 
     this.productService.newBudget(budget).subscribe(data => {
       if (!data.success) {
@@ -137,7 +136,20 @@ export class DashboardComponent implements OnInit {
 
          if (this.dateNow == this.yearMonth)
          { 
-           this.currentBudget = data.budgets[i].budget_price;
+            this.budgetID = data.budgets[i]._id;
+            this.currentBudget = data.budgets[i].budget_price;
+
+            if (this.priceSpent != data.budgets[i].budget_spent)
+            {
+              let budget = {
+                _id: this.budgetID,
+                budget_spent: this.priceSpent,
+                date_now: data.budgets[i].date_now,
+                budget_price: data.budgets[i].budget_price,
+                username: data.budgets[i].username
+              }
+              this.updateBudget(budget);
+            }
          }
       }
     }, 50);
@@ -184,6 +196,26 @@ export class DashboardComponent implements OnInit {
       this.showBudgets = false;
     }
   }
+
+  updateBudget(budget) 
+  {
+    console.log(budget);
+    //submit updated product
+    this.productService.editBudget(budget).subscribe(data => 
+    {
+      if (!data.success)
+      {//if data processing is unsuccessful, display warning message
+        this.checkerClass = 'alert alert-danger';
+        this.checker = data.message;
+      }
+      else
+      {//if data processing is successful, display success message
+        this.checkerClass = 'alert alert-success';
+        this.checker = data.message;
+      }
+    });
+  }
+
   spending(product_price)
   {
   	this.priceSpent = (this.priceSpent + product_price);
@@ -205,5 +237,4 @@ export class DashboardComponent implements OnInit {
       this.yearMonth = this.year + "-" + this.month;
     }
   }
-
 }

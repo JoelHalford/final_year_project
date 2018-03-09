@@ -16,3 +16,21 @@ form {
 }
 
 h1 { color: white; font-family: 'Helvetica Neue', sans-serif; font-size: 4em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+
+label {
+	font-size: 1.5em;
+	color: white;
+}
+
+.btn {
+	font-size: 1.5em;
+}
+
+input {
+	font-size: 1.3em;
+}
+
+.help-block {
+    font-size: 1.5em;
+    color: #e5682d;
+}
