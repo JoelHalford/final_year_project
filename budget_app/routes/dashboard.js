@@ -27,7 +27,7 @@ module.exports = (router) => {
 	});
 
 	router.get('/allBudgets', (req, res) => 
-	{//grab all products
+	{//grab all budgets
 		Budget.find({}, (err, budgets) => 
 		{
 			if (err) 
@@ -35,21 +35,21 @@ module.exports = (router) => {
 				res.json({ success: false, message: err	});
 			}
 			else if (!budgets) 
-			{//if no products in database
+			{//if no budgets in database
 				res.json({ success: false, message: 'No budgets found.'});
 			}
 			else 
 			{//if no errors, success
 				res.json({ success: true, budgets: budgets});
 			}
-		//sorts by latest posted product
+		//sorts by latest posted budget
 		}).sort({'_id': -1});
 	});
 
 	router.post('/newBudget', (req, res) =>
 	{//post for adding a new budget
 		const budget = new Budget(
-		{//create an object for product
+		{//create an object for budget
 			username: req.body.username,
 			budget_price: req.body.budget_price
 		});
@@ -61,7 +61,7 @@ module.exports = (router) => {
 				if (err.errors) 
 				{
 					if (err.errors.budget_price) 
-					{//if error caused by product name
+					{//if error caused by budget price
 						res.json({ success: false, message: err.errors.budget_price.message });
 					}						
 					else
@@ -81,7 +81,7 @@ module.exports = (router) => {
 		});
 	});
 
-router.put('/updateBudget', (req, res) => 
+router.put('/editBudget', (req, res) => 
 	{//update a budget
 
 		_id = req.body._id;
@@ -120,12 +120,10 @@ router.put('/updateBudget', (req, res) =>
 							res.json({ success: false, message: 'You are not the creator of this budget.'});
 						}
 						else
-						{//if user is the creator of the budget, allow them to edit
-							console.log("hi");
-							budget.budget_spent = req.body.budget_spent;
+						{//if user is the creator of the budget, allow them to edit							
 							budget.budget_price = req.body.budget_price;
-							budget.date_now = req.body.date_now;
-							budget.username = req.body.username;
+							console.log(req.body.budget_price);
+							console.log(budget.budget_price);
 
 							budget.save((err) =>
 							{
@@ -146,6 +144,59 @@ router.put('/updateBudget', (req, res) =>
 		}
 
 	});
+
+// router.put('/editBudget', (req, res) => 
+// 	{//update a budget
+// 		if(!req.body._id) 
+// 		{//return error if no ID provided
+// 			res.json({ success: false, message: 'No budget ID provided.'});
+// 		}
+// 		else
+// 		{
+// 			Budget.findOne({ _id: req.body._id }, (err, budget) =>
+// 			{
+// 				if (err)
+// 				{///if error not a valid budget ID
+// 					res.json({ success: false, message: 'Budget ID not valid.'});
+// 				}
+// 				else if (!budget)
+// 				{//if budget ID not found
+// 					res.json({ success: false, message: 'Budget ID not found'});
+// 				}
+// 				else
+// 				{//check user was the one that
+// 					User.findOne({ _id: req.decoded.userId }, (err, user) =>
+// 					{
+// 						if (err)
+// 						{//if an error occurs
+// 							res.json({ success: false, message: err });
+// 						}
+// 						else if (!user)
+// 						{//if user is not found
+// 							res.json({ success: false, message: 'Unable to find user.'});
+// 						}
+// 						else
+// 						{//if user is the creator of the budget, allow them to edit
+// 							budget.budget_spent = req.body.budget_spent;
+// 							budget.save((err) =>
+// 							{
+// 								if (err)
+// 								{//if any errors saving, output error message
+// 									res.json({ success: false, message: err });
+// 								}
+// 								else
+// 								{//if no errors, update budget
+// 									res.json({ success: true, message: 'Budget updated successfully.'});
+// 								}
+// 							});
+// 						}
+
+// 					});
+// 				}
+// 			});
+// 		}
+
+// 	});
 
 	return router;
 };

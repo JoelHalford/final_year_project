@@ -29,44 +29,48 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       //uername Input
       username: ['', Validators.compose([
-        Validators.required, //field is required
-        Validators.minLength(3), //minimum length is 3 characters
+        Validators.required,      //field is required
+        Validators.minLength(3),  //minimum length is 3 characters
         Validators.maxLength(15), //maximum length is 15 characters
-        this.validateUsername //custom validation
+        this.validateUsername     //custom validation
       ])],
-      //password Input
+      //password input
       password: ['', Validators.compose([
-        Validators.required, //field is required
-        Validators.minLength(4), //minimum length is 4 characters
+        Validators.required,      //field is required
+        Validators.minLength(4),  //minimum length is 4 characters
         Validators.maxLength(20), //maximum length is 20 characters
-        this.validatePassword //custom validation
+        this.validatePassword     //custom validation
       ])],
-      // Confirm Password Input
+      //confirm password input
       confirm: ['', Validators.required] //field is required
-    }, { validator: this.matchingPasswords('password', 'confirm') }); //add custom validator to form for matching passwords
+        //add custom validator to form for matching passwords
+    }, { validator: this.matchingPasswords('password', 'confirm') });
   }
 
   //function to validate username format
   validateUsername(controls) {
-    // Create a regular expression
+    //create a regular expression
     const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
     //test
-    if (regExp.test(controls.value)) {
-      return null; //return as valid username
-    } else {
-      return { 'validateUsername': true } //return as invalid username
+    if (regExp.test(controls.value)) 
+    {//return as invalid username
+      return null;
+    } else 
+    {//return as valid username
+      return { 'validateUsername': true }
     }
   }
-
   //function to validate password
   validatePassword(controls) {
     //create a regular expression
     const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
     //test password
-    if (regExp.test(controls.value)) {
-      return null; //return as valid password
-    } else {
-      return { 'validatePassword': true } //return as invalid password
+    if (regExp.test(controls.value)) 
+    {//return as valid password
+      return null;
+    } else 
+    {//return as invalid password
+      return { 'validatePassword': true } 
     }
   }
 
@@ -74,28 +78,35 @@ export class RegisterComponent implements OnInit {
   matchingPasswords(password, confirm) {
     return (group: FormGroup) => {
       // Check if both fields are the same
-      if (group.controls[password].value === group.controls[confirm].value) {
-        return null; // Return as a match
-      } else {
-        return { 'matchingPasswords': true } // Return as error: do not match
+      if (group.controls[password].value === group.controls[confirm].value) 
+      {//returns as a match
+        return null;
+      } else 
+      {//return as error
+        return { 'matchingPasswords': true } 
       }
     }
   }
-
   //submit form
-  onRegisterSubmit() {
+  onRegisterSubmit() 
+  {//upon registering
   	this.processing = true;
-  	const user = {
-  		username: this.form.get('username').value,
-  		password: this.form.get('password').value
+  	const user = 
+    {//add input username and password to user
+    	username: this.form.get('username').value,
+    	password: this.form.get('password').value
   	}
 
-  	this.authService.registerUser(user).subscribe(data => {
-  		if (!data.success) {
+  	this.authService.registerUser(user).subscribe(data => 
+    {//subscribe to registerUser service at /services/auth.service
+  		if (!data.success) 
+        {//if data unsuccessful
   			this.checkerClass = 'alert alert-danger';
   			this.checker = data.message;
   			this.processing = false;
-  		}else {
+  		}
+      else 
+      {//if data successful
   			this.checkerClass = 'alert alert-success';
   			this.checker = data.message;
   		}
@@ -104,5 +115,4 @@ export class RegisterComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
 }

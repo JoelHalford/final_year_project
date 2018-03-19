@@ -14,12 +14,12 @@ export class NavbarComponent implements OnInit {
 	private router: Router
   ) { }
 
-  logoutClick() {//if user clicks logout, send them home
-	this.authService.logout();
-	this.router.navigate(['/home']);
+  logoutClick() 
+  {//if user clicks logout, send them home
+  	this.authService.logout();
+  	this.router.navigate(['/home']);
   }
 
   ngOnInit() {
   }
-
 }

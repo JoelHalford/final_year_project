@@ -1,28 +1,24 @@
 {
   "name": "budget_app",
   "version": "1.0.0",
-  "description": "MEAN Stack with Angular 2",
+  "description": "Budgeting app for purchases",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gugui3z24/MEAN-Stack-With-Angular-2-Tutorial.git"
-  },
   "keywords": [
+    "Budgeting",
+    "Social",
+    "Purchasing",
     "MEAN",
     "Stack",
     "Angular",
     "2",
     "Application"
   ],
-  "author": "David Acosta",
+  "author": "Joel Halford",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gugui3z24/MEAN-Stack-With-Angular-2-Tutorial/issues"
-  },
-  "homepage": "https://github.com/gugui3z24/MEAN-Stack-With-Angular-2-Tutorial#readme",
+
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",

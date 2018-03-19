@@ -18,7 +18,7 @@ export class ProductComponent implements OnInit {
   loadingProducts = false;
   processing = false;
   username;
-  productPosts;
+  productPosts = [];
   additionalComment = [];
   enabledComments = [];
   show = 3;
@@ -61,6 +61,9 @@ export class ProductComponent implements OnInit {
   			Validators.maxLength(40),  		//maximum length of 40	
   			this.alphaNumericValidation   //uses alphanumericValidation function
   		])],
+      product_private: ['', Validators.compose([
+
+      ])],
   	})
   }
 
@@ -133,6 +136,7 @@ export class ProductComponent implements OnInit {
   onProductSubmit()
   {//when user submits a new product
   	console.log('Submitted form.');
+    console.log(this.form.get('product_private').value);
 
   	const product = 
     {//create object 'product' with these values
@@ -140,6 +144,7 @@ export class ProductComponent implements OnInit {
   		product_price: this.form.get('product_price').value,
   		product_location: this.form.get('product_location').value,
   		product_id: this.form.get('product_id').value,
+      product_private: this.form.get('product_private').value,
   		createdBy: this.username
   	}
 
@@ -169,8 +174,16 @@ export class ProductComponent implements OnInit {
   getAllProducts() 
   {//gets all current products
     this.productService.getAllProducts().subscribe(data => 
-    {
-      this.productPosts = data.products;
+    {//subscribe to getAllProducts service in services/product.service
+      let k = 0; //for iterating productPosts
+
+      for (let i = 0; i < data.products.length; i++)
+      {//loop through products
+        if (data.products[i].product_private != "true")
+        {//if current product is not private, add to productPosts
+          this.productPosts[k++] = data.products[i];
+        }
+      }
     });
   }
 
@@ -252,12 +265,12 @@ export class ProductComponent implements OnInit {
   }
 
   showMore()
-  {
+  {//show five more posts on click
     this.show += 5;
   }
 
   getShow()
-  {
+  {//show the posts
     return this.show;
   }
 }

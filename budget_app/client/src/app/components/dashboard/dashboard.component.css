@@ -102,3 +102,19 @@ h4, h3 {
 #budgetHeader, #purchaseHeader, #purchaseHeader2, .viewMessage {
     text-align: center;
 }
+
+.edit_budget {
+    float: right;
+}
+
+#editBudget {
+    margin-right: 1em;
+}
+
+h3 {
+    text-align: center;
+}
+
+.tab-head {
+    background-color: #dee1e5;
+}

@@ -27,6 +27,7 @@ module.exports = (router) => {
 				product_price: req.body.product_price,
 				product_location: req.body.product_location,
 				product_id: req.body.product_id,
+				product_private: req.body.product_private,
 				createdBy: req.body.createdBy
 			});
 			product.save((err) => 
