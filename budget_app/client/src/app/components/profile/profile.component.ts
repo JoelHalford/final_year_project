@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getAllProducts() 
-  {//gets all products
+  {//gets all products for logged in user
     this.productService.getAllProducts().subscribe(data => 
     {//subscribe to getProfile service inside /services/product.service
       setTimeout(() => 
@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
         for (let i = 0; i < data.products.length; i++)
         {//loop through products
           if (data.products[i].createdBy == this.username)
-          {//if current product creator equals username
+          {//if current product creator equals logged in username
             //add current product to productPosts
             this.productPosts.push(data.products[i]);
             //add current product likes to overall likes

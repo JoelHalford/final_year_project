@@ -8,8 +8,8 @@
 <ul class="nav nav-tabs">
   <li class="active tab-head"><a data-toggle="tab" href="#monthBudget">Current Budget</a></li>
   <li class="tab-head"><a data-toggle="tab" href="#otherBudgets">Other Budgets</a></li>
+  <li class="tab-head"><a data-toggle="tab" href="#budgetChart">Budget Chart</a></li>
 </ul>
-
 <div class="tab-content">
   <div id="monthBudget" class="tab-pane fade in active">
     <h3>This months budget!</h3>
@@ -31,12 +31,12 @@
 		</form>
 	</div>
 
-<div class="panel panel-primary">
+	<div class="panel panel-primary">
 		<div class="panel-heading">
 			Total spending this month (<strong>{{currentDate | date : "MMM yyyy"}}</strong>)
 		</div>
 		<div class="panel-body" *ngIf="currentBudget != 0">
-			<form (submit)="updateBudgetSubmit(budgetPrice)">
+			<form (submit)="updateBudgetSubmit()">
 				<p><strong>Budget: </strong> £{{ currentBudget  | number : '1.2-2'}}
 				<button type="submit" name="save" class="btn btn-info" class="edit_budget" >Edit Budget</button>
 				<input id="editBudget" class="edit_budget" type="text" name="budgetPrice" placeholder="Budget Price"/>		
@@ -59,10 +59,50 @@
 		</div>
 	</div>
   </div>
-  <div id="otherBudgets" class="tab-pane fade">
-    <h3>Other Budgets</h3>
-    <p>Some content in menu 1.</p>
-  </div>
+    <div id="otherBudgets" class="tab-pane fade">
+	    <h3>Other Budgets</h3>
+	    <div *ngFor="let budget of budgetPosts">
+			<div *ngIf="username == budget.username && budget.date_now.toString().substring(0, 7) != yearMonth">
+		  	<!-- Budget checking -->
+			  	<div class="panel panel-primary">
+			  		<div class="panel-heading">
+						Total spending this month (<strong>{{budget.date_now | date : "MMM yyyy"}}</strong>)
+					</div>
+					<div class="panel-body">
+						<p><strong>Budget: </strong> £{{ budget.budget_price  | number : '1.2-2'}}
+					  	<p><strong>Total Spent: </strong>£{{ budget.budget_spent | number : '1.2-2'}}</p>
+					  	<div *ngIf="(budget.budget_price < budget.budget_spent)">
+					  		<p><strong>Difference: </strong>£{{ budget.budget_price - (budget.budget_spent) | number : '1.2-2' }}</p>
+					  		<p style="color: red"><strong>You went over budget by {{ (budget.budget_price - budget.budget_spent) / budget.budget_price * 100 | number : '1.2-2'}}%</strong></p>
+					  	</div>
+					  	<div *ngIf="(budget.budget_spent < budget.budget_price)">
+					  		<p><strong>Difference: </strong>£{{ budget.budget_price - (budget.budget_spent) | number : '1.2-2' }}</p>
+					  		<div>
+					  			<p style="color: green">You saved {{ (budget.budget_price - budget.budget_spent) / budget.budget_price * 100 | number : '1.2-2'}}% of your money.</p>
+					  		</div>
+					  	</div>
+					</div>
+				</div>
+		  	</div> 
+		  	<div *ngIf="budgetPosts.length == 1">
+		  		<h4 style='text-align: center'>No other budgets available.</h4>
+		  	</div>
+	  	</div> 
+	</div>
+    <div id="budgetChart" class="tab-pane fade">
+	    <h3>Budget Chart</h3>
+		<div id="budgetData">
+		  <canvas
+		      baseChart
+		      [chartType]="'line'"
+		      [colors]="chartColors"
+		      [datasets]="chartData"
+		      [labels]="chartLabels"
+		      [options]="chartOptions"
+		      [legend]="true">
+		  </canvas>
+		</div>
+	</div>
 </div>
 
 
@@ -103,28 +143,28 @@
   <div id="otherPurchases" class="tab-pane fade">
     <h3>Other Purchases</h3>
     <div *ngFor="let product of productPosts">
-	<div *ngIf="username == product.createdBy && product.createdAt.toString().substring(0, 7) != yearMonth">
-	  <!-- Budget checking -->
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-		  		<div class="row">
-		    		<div class="col-sm-7 header"><strong>{{product.product_name}}</strong></div>
-		    		<div class="col-sm-4 header"><strong>Number of likes: </strong>{{product.likes}}</div>
-		  		</div>
-		  	</div>
-		  	<div class="panel-body">
-			  	<div class="row">
-			    	<div class="col-sm-6 body"><strong>Price: </strong>£{{ product.product_price | number : '1.2-2'}} </div>
-			  		<div class="col-sm-6 body"><strong>Location: </strong>{{product.product_location}} </div>
+		<div *ngIf="username == product.createdBy && product.createdAt.toString().substring(0, 7) != yearMonth">
+	  	<!-- Budget checking -->
+			<div class="panel panel-primary">
+					<div class="panel-heading">
+			  		<div class="row">
+			    		<div class="col-sm-7 header"><strong>{{product.product_name}}</strong></div>
+			    		<div class="col-sm-4 header"><strong>Number of likes: </strong>{{product.likes}}</div>
+			  		</div>
 			  	</div>
-				<div class="row">
-				    <div class="col-sm-6 body"><strong>ID: </strong>{{ product.product_id }}</div>
-					<div class="col-sm-5 body"><strong>Date: </strong>{{ product.createdAt | date:'dd MMM, yyyy' }}</div>
-					<div class="col-sm-1 body"><a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info edit-button"><span class="glyphicon glyphicon-edit"></span></button></a></div>
+			  	<div class="panel-body">
+				  	<div class="row">
+				    	<div class="col-sm-6 body"><strong>Price: </strong>£{{ product.product_price | number : '1.2-2'}} </div>
+				  		<div class="col-sm-6 body"><strong>Location: </strong>{{product.product_location}} </div>
+				  	</div>
+					<div class="row">
+					    <div class="col-sm-6 body"><strong>ID: </strong>{{ product.product_id }}</div>
+						<div class="col-sm-5 body"><strong>Date: </strong>{{ product.createdAt | date:'dd MMM, yyyy' }}</div>
+						<div class="col-sm-1 body"><a [routerLink]="['/edit-product/', product._id]" *ngIf="username === product.createdBy"><button type="button" name="button" class="btn btn-sm btn-info edit-button"><span class="glyphicon glyphicon-edit"></span></button></a></div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+  	</div>
   </div>
 </div>
-<!-- end of panel -->

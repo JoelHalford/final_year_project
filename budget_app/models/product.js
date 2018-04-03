@@ -20,7 +20,7 @@ let alphaNumericNameChecker = (product_name) =>
 	if (!product_name) {
 		return false;
 	} else {
-		const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
+		const regExp = new RegExp(/^(?=.*[^\W_])[\w ]*$/);
 		return regExp.test(product_name);
 	}
 };
@@ -82,7 +82,7 @@ const locationValidators =
 [//validation for location
 	{
 		validator: locationLengthChecker, 
-		message:   "Product name must be between 4 and 40 characters"
+		message:   "Product location must be between 4 and 40 characters"
 	}
 ];
 
@@ -93,12 +93,17 @@ const locationValidators =
 
 let idLengthChecker = (product_id) => 
 {//check product name length
-	if (!product_id) {
+	if (!product_id) 
+	{//if no product_id provided, return false
 		return false;
-	} else {
-		if (product_id.length < 1 || product_id.length > 40) {
+	} 
+	else 
+	{//if product_id is provided
+		if (product_id.length < 1 || product_id.length > 40) 
+		{//if product is not between 1 and 40, return false
 			return false;
-		} else {
+		} else 
+		{//if product is between 1 and 40, return true
 			return true;
 		}
 	}
@@ -106,9 +111,12 @@ let idLengthChecker = (product_id) =>
 
 let alphaNumericIDChecker = (product_id) => 
 {//check ID is alphanumeric
-	if (!product_id) {
+	if (!product_id) 
+	{//if no product_id provided, return false
 		return false;
-	} else {
+	} 
+	else 
+	{//if product_id provided, compare with expression and return test
 		const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
 		return regExp.test(product_id);
 	}
@@ -116,13 +124,13 @@ let alphaNumericIDChecker = (product_id) =>
 
 const idValidators = 
 [//validation for product ID
-	{
+	{//id length validator name and message to send to client
 		validator: idLengthChecker, 
 		message:   "Product ID must be between 4 and 40 characters"
 	},
-	{
+	{//alphanumeric validator name and message to send to client
 		validator: alphaNumericIDChecker, 
-		message:   "Product name can't have any special characters"
+		message:   "Product ID can't have any special characters"
 	}
 ];
 ///////////////////////////////////////
@@ -165,6 +173,8 @@ const productSchema = new Schema({
 	product_price: {
 		type: Number,
 		required: true,
+		min: 0,
+		max: 100000,
 		validate: priceValidators
 	},
 	product_location: {

@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';         //ngModule for reactive forms
 import { HttpModule } from '@angular/http';                   //
 import { AppRoutingModule } from './app-routing.module';      //
+import { ChartsModule } from 'ng2-charts';    //module displaying charts
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 //end of module imports
 //start of component imports
 import { AppComponent } from './app.component';
@@ -25,6 +27,8 @@ import { ProductService } from './services/product.service';
 import { AuthGuard } from './guards/auth.guard';                    
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { FilterPipe } from './filter.pipe';
                    
 //end of service imports 
 
@@ -40,14 +44,18 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     ProductComponent,
     EditProductComponent,
     DeleteProductComponent,
-    PublicProfileComponent
+    PublicProfileComponent,
+    AdminComponent,
+    FilterPipe
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule,
+    InfiniteScrollModule
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, ProductService], //dependency injection
   bootstrap: [AppComponent] //declare bootstrap

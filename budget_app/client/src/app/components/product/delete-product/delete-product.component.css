@@ -1,3 +1,11 @@
 .page-header {
     color: #d4d4d6;
 }
+
+.confirmDeletion {
+    overflow: auto;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-size: 1.5em;
+    margin-top: 3em;
+}

@@ -24,12 +24,14 @@ module.exports = (router) => {
 			const product = new Product(
 			{//create an object for product
 				product_name: req.body.product_name,
-				product_price: req.body.product_price,
+				//requests body of product_price and parses value to a float to 2 decimal places
+				product_price: Number.parseFloat(req.body.product_price).toFixed(2),
 				product_location: req.body.product_location,
 				product_id: req.body.product_id,
 				product_private: req.body.product_private,
 				createdBy: req.body.createdBy
 			});
+
 			product.save((err) => 
 			{//save product into database
 				if (err) 
@@ -42,15 +44,16 @@ module.exports = (router) => {
 						} 
 						else if (err.errors.product_price) 
 						{//if error caused by product price
-							res.json({ success: false, message: err.errors.produce_price.message });
+							res.json({ success: false, message: err.errors.product_price.message });
 						} 
 						else if (err.errors.product_location)
 						{//if error caused by product location
-							res.json({ success: false, message: err.errors.produce_location.message });
+							res.json({ success: false, message: err.errors.product_location.message });
 						}
 						else if (err.errors.product_id)
 						{//if error caused by product id
-							res.json({ success: false, message: err.errors.produce_id.message });
+							//make json response: unsccessful; message: error specific to produce_id
+							res.json({ success: false, message: err.errors.product_id.message });
 						} 
 						else
 						{//if another error
@@ -73,22 +76,42 @@ module.exports = (router) => {
 	router.get('/allProducts', (req, res) => 
 	{//grab all products
 		Product.find({}, (err, products) => 
-			{
-				if (err) 
-				{//if an error occurs
-					res.json({ success: false, message: err	});
-				}
-				else if (!products) 
-				{//if no products in database
-					res.json({ success: false, message: 'No products found.'});
-				}
-				else 
-				{//if no errors, success
-					res.json({ success: true, products: products});
-				}
-			//sorts by latest posted product
-			}).sort({'_id': -1});
-		});
+		{
+			if (err) 
+			{//if an error occurs
+				res.json({ success: false, message: err	});
+			}
+			else if (!products) 
+			{//if no products in database
+				res.json({ success: false, message: 'No products found.'});
+			}
+			else 
+			{//if no errors, success
+				res.json({ success: true, products: products});
+			}
+		//sorts by latest posted product
+		}).sort({'_id': -1});
+	});
+
+	router.get('/allUsers', (req, res) => 
+	{//grab all users
+		User.find({}, (err, users) => 
+		{
+			if (err) 
+			{//if an error occurs
+				res.json({ success: false, message: err	});
+			}
+			else if (!users) 
+			{//if no users in database
+				res.json({ success: false, message: 'No users found.'});
+			}
+			else 
+			{//if no errors, success
+				res.json({ success: true, users: users});
+			}
+		//sorts by latest posted product
+		}).sort({'_id': -1});
+	});
 
 	router.get('/singleProduct/:id', (req, res) =>
 	{//grab a single product
@@ -226,11 +249,11 @@ module.exports = (router) => {
 						}
 						else
 						{//if no errors returned
-							if (user.username !== product.createdBy)
+							if (user.admin == 'false')
 							{//if username does not equal same user that created product
-								res.json ({ success: false, message: "You are not the user that created this post."});
+								res.json ({ success: false, message: "You are not an admin."});
 							}
-							else
+							else if (user.admin == 'true')
 							{//if username does equal same as user that created product
 								product.remove((err) =>
 								{//try to remove product from database

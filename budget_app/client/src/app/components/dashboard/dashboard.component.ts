@@ -12,6 +12,42 @@ import { ActivatedRoute, Router } from '@angular/router';    //enables capture o
 })
 export class DashboardComponent implements OnInit {
 
+  chartData = 
+  [//data for the chart with label name
+    { data: [330, 600, 260, 700], label: 'January' },
+    { data: [120, 455, 100, 340], label: 'February' },
+    { data: [45, 67, 800, 500], label: 'March' }
+  ];
+
+  chartOptions = 
+  {//options for the chart
+    legend: 
+    {//options for legend
+      labels: 
+      {//options for legend labels
+        fontColor: 'white'  //font colour for labels
+      }
+    },
+    scales: 
+    {//options for scales
+      yAxes: 
+      [{//options for yAxes
+        display: true,  //display this
+        ticks: 
+        {//options for ticks
+          fontColor: 'white'  //font colour
+        }
+      }],
+      xAxes: 
+      [{//options for xAxes
+        display: true,  //display this
+        ticks: 
+        {//options for tickets
+          fontColor: 'white'  //font colour
+        }
+      }]
+    }
+  }
   form;        //exports form
   checker;     //sends validation message
   checkerClass;   //checks validation
@@ -29,7 +65,8 @@ export class DashboardComponent implements OnInit {
   budgetID = 0;  //the ID of the budget
   budget;        //budget array
 
-  constructor(
+  constructor
+  (
     private formBuilder: FormBuilder,
   	private productService: ProductService,
   	private authService: AuthService,
@@ -41,7 +78,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() 
   {//on intitialisation
-  	this.authService.getProfile().subscribe(profile => {
+  	this.authService.getProfile().subscribe(profile => 
+    {//subscribe to data retrieved inside /services/auth.service
   		this.username = profile.user.username;  //grabs current users username
   	});
 
@@ -212,6 +250,8 @@ export class DashboardComponent implements OnInit {
   {//subscribe to getAllBudgets service inside /services/product.service
       for (let i = 0; i < data.budgets.length; i++)
       {//loop throug budgets
+        this.dateNow = data.budgets[i].date_now.substring(0, 7);
+
         if (this.dateNow == this.yearMonth)
         {//if product date is same as current date
           //retrieve input for editing budget
@@ -234,7 +274,7 @@ export class DashboardComponent implements OnInit {
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
                 this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
-              }, 1000);
+              }, 50);
             }
           });
         }

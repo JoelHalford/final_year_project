@@ -86,7 +86,6 @@ router.put('/editBudget', (req, res) =>
 
 		_id = req.body._id;
 
-		console.log("hi");
 		if(!_id) 
 		{//return error if no ID provided
 			res.json({ success: false, message: 'No budget ID provided.'});
@@ -122,8 +121,6 @@ router.put('/editBudget', (req, res) =>
 						else
 						{//if user is the creator of the budget, allow them to edit							
 							budget.budget_price = req.body.budget_price;
-							console.log(req.body.budget_price);
-							console.log(budget.budget_price);
 
 							budget.save((err) =>
 							{

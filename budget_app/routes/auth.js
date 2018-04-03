@@ -92,7 +92,7 @@ module.exports = (router) => {
   //intercept headers/get user profile
   router.get('/profile', (req, res) => 
   {//search for user in database
-    User.findOne({ _id: req.decoded.userId }).select('username').exec((err, user) => {
+    User.findOne({ _id: req.decoded.userId }).select(['username']).exec((err, user) => {
       //check if error connecting
       if (err) 
       {
@@ -105,6 +105,33 @@ module.exports = (router) => {
         {// Return error, user was not found in db
           res.json({ success: false, message: 'User not found' });
         } else 
+        {// Return success, send user object to frontend for profile
+          res.json({ success: true, user: user });
+        }
+      }
+    });
+  });
+
+  //intercept headers/get user profile
+  router.get('/admin', (req, res) => 
+  {//search for user in database
+    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => {
+      //check if error connecting
+      if (err) 
+      {
+        res.json({ success: false, message: err }); // Return error
+      } 
+      else 
+      {
+        //check if user was found
+        if (!user) 
+        {// Return error, user was not found in db
+          res.json({ success: false, message: 'User not found' });
+        } 
+        else if (user.admin == 'false')
+        {
+          res.json({ success: false, message: 'You are not an admin' });
+        } else
         {// Return success, send user object to frontend for profile
           res.json({ success: true, user: user });
         }

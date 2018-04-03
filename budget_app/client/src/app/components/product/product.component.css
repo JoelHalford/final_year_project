@@ -151,3 +151,17 @@ label {
     margin-top: 1em;
     margin-bottom: 1em;
 }
+
+#filterProduct {
+    font-size: 1em;
+    padding: 0.5em;
+}
+
+#filter {
+    text-align: center;
+}
+
+/*.search-results {
+            height: 20rem;
+            overflow: scroll;
+}*/

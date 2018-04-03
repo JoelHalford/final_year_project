@@ -6,10 +6,9 @@
 	</div>
 </div>
 
-<div class="col-md-6" *ngIf="foundProduct">
+<div class="col-md-6 confirmDeletion" *ngIf="foundProduct">
 	<div class="modal-content">
 		<div class="modal-header">
-			<button type="button" name="button" class="close" data-dismiss="modal">&times;</button>
 			<h3 class="modal-title">Confirm</h3>
 		</div>
 		<div class="modal-body">
@@ -26,8 +25,8 @@
 			<h3 class="panel-title">{{ product.product_name }}</h3>
 		</div>
 		<div class="panel-body">
-			<p><strong>Name: </strong> {{ product.product_price }}</p>
-			<p><strong>Price: </strong> {{ product.product_location }}</p>
+			<p><strong>Name: </strong> {{ product.product_name }}</p>
+			<p><strong>Price: </strong> £{{ product.product_price | number : '1.2-2'}}</p>
 			<p><strong>ID: </strong> {{ product.product_id }}</p>
 		</div>
 		<div class="panel-footer">

@@ -53,6 +53,7 @@ export class ProductService {
 
   deleteProduct(id)
   {//service for deleting product
+    console.log(id);
     this.createAuthHeaders();
     return this.http.delete(this.domain + 'product/deleteProduct/' + id, this.options).map(res => res.json());
   }
@@ -90,5 +91,11 @@ export class ProductService {
   {//service for editing budget
     this.createAuthHeaders();
     return this.http.put(this.domain + 'dashboard/editBudget', budget, this.options).map(res => res.json());
+  }
+
+  getAllUsers() 
+  {//service for getting all products
+    this.createAuthHeaders();
+    return this.http.get(this.domain + 'product/allUsers', this.options).map(res => res.json());
   }
 }

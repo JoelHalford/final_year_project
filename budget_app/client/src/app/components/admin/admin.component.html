@@ -1,0 +1,61 @@
+<div class="row show-hide-message" *ngIf="checker">
+	<div [ngClass]="checkerClass">
+		{{	checker	}}
+	</div>
+</div>
+
+<h1 class="page-header">View Products and Users</h1>
+<br>
+<h3>Products</h3>
+<br>
+<!-- table of products -->
+<table class="table table-striped table-products" *ngIf="admin == 'true'">
+<thead>
+	<tr class="info">
+		<th>#</th>
+		<th>Username</th>
+		<th>Name</th>			
+		<th>Price</th>			
+		<th>Location</th>			
+		<th>Likes</th>
+		<th>Date</th>
+		<th>Delete</th>
+	</tr>
+</thead>
+<tbody>
+	<tr class="success" *ngFor="let product of productPosts; let i = index">					
+		<td>{{ i+1 }}</td>
+		<td>{{ product.createdBy }}</td>
+		<td>{{ product.product_name }}</td>
+		<td>£{{ product.product_price | number : '1.2-2'}}</td>
+		<td>{{ product.product_location }}</td>
+		<td>{{ product.likes }}</td>
+		<td>{{ product.createdAt | date: 'shortDate' }}</td>
+		<td><button type="button" name="button" class="btn btn-danger" (click)="deleteProduct(product._id)">Delete</button></td>
+	</tr>
+</tbody>
+</table>
+<!-- end of table of products -->
+<br>
+<h3>Users</h3>
+<br>
+<!-- table of users -->
+<table class="table table-striped" *ngIf="admin == 'true'">
+<thead>
+	<tr class="info">
+		<th>#</th>
+		<th>Username</th>
+		<th>Admin</th>
+		<th>Delete</th>
+	</tr>
+</thead>
+<tbody>
+	<tr class="success" *ngFor="let user of userPosts; let i = index">					
+		<td>{{ i+1 }}</td>
+		<td>{{ user.username }}</td>
+		<td>{{ user.admin }}</td>		
+		<td><button type="button" name="button" class="btn btn-danger" (click)="deleteUser(user._id)">Delete</button></td>
+	</tr>
+</tbody>
+</table>
+<!-- end of table of users -->

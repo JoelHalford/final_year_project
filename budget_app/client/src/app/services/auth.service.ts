@@ -63,6 +63,12 @@ export class AuthService
 		this.createAuthHeaders();
 		return this.http.get(this.domain + 'auth/profile', this.options).map(res => res.json());
   }
+  //retrieves admins profile
+  getAdmin() 
+  {
+    this.createAuthHeaders();
+    return this.http.get(this.domain + 'auth/admin', this.options).map(res => res.json());
+  }
   //checks if user is logged in
   loggedIn() 
   {

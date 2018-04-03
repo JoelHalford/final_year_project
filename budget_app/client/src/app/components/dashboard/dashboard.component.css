@@ -118,3 +118,8 @@ h3 {
 .tab-head {
     background-color: #dee1e5;
 }
+
+#budgetData {
+    text-align: center;
+    margin-left: 0 auto;
+}

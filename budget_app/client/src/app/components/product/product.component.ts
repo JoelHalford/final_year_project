@@ -21,7 +21,7 @@ export class ProductComponent implements OnInit {
   productPosts = [];
   additionalComment = [];
   enabledComments = [];
-  show = 3;
+  show = 5;
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -67,12 +67,10 @@ export class ProductComponent implements OnInit {
   	})
   }
 
-
-
   alphaNumericValidation(controls) 
   {//alphanumeric validation
     //ensures input is only letters or numbers (no special characters)
-  	const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
+  	const regExp = new RegExp(/^(?=.*[^\W_])[\w ]*$/);
   	if(regExp.test(controls.value)) 
     {
   		return null;
@@ -147,6 +145,8 @@ export class ProductComponent implements OnInit {
       product_private: this.form.get('product_private').value,
   		createdBy: this.username
   	}
+
+    console.log(product);
 
     this.productService.newProduct(product).subscribe(data => {
       if (!data.success)
@@ -264,13 +264,8 @@ export class ProductComponent implements OnInit {
     this.getAllProducts();
   }
 
-  showMore()
-  {//show five more posts on click
-    this.show += 5;
-  }
-
-  getShow()
-  {//show the posts
-    return this.show;
+  onScroll () 
+  {//on scroll, add 3 more products
+      this.show += 3;
   }
 }
