@@ -53,7 +53,6 @@ export class ProductService {
 
   deleteProduct(id)
   {//service for deleting product
-    console.log(id);
     this.createAuthHeaders();
     return this.http.delete(this.domain + 'product/deleteProduct/' + id, this.options).map(res => res.json());
   }

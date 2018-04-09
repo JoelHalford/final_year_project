@@ -13,7 +13,6 @@ var storage = multer.diskStorage({
   }
 })
 
-
 module.exports = (router) => {
 
 	router.post('/newProduct', (req,res) => 
@@ -236,7 +235,6 @@ module.exports = (router) => {
 				}
 			});
 		}
-
 	});
 
 	router.delete('/deleteProduct/:id', (req,res) =>
@@ -271,11 +269,13 @@ module.exports = (router) => {
 						}
 						else
 						{//if no errors returned
-							if (user.admin == 'false')
+							if (user.admin == false && user.username != product.createdBy)
 							{//if username does not equal same user that created product
-								res.json ({ success: false, message: "You are not an admin."});
+								console.log(user.admin);
+								console.log(user);
+								res.json ({ success: false, message: "You are not an admin or creator of this post."});
 							}
-							else if (user.admin == 'true')
+							else if (user.admin == true || user.admin == 'true' || user.username == product.createdBy)
 							{//if username does equal same as user that created product
 								product.remove((err) =>
 								{//try to remove product from database

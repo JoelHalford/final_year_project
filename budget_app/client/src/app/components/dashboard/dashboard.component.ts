@@ -91,7 +91,6 @@ export class DashboardComponent implements OnInit {
 
       for (let i = 0; i < data.budgets.length; i++)
       {//loop through budgets
-        this.chartData = [];
         if (data.budgets[i].username == this.username)
         {//if username linked to budget is same as logged in user, 
           this.dateNow = data.budgets[i].date_now.substring(0, 7);
@@ -99,7 +98,8 @@ export class DashboardComponent implements OnInit {
           if (this.dateNow == this.yearMonth)
           {//if current date is same as budget date
             //push latest month into chartData
-            this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_spent], label: this.dateNow });
+            this.chartData = [];
+            this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_price - data.budgets[i].budget_spent], label: this.dateNow });
             break;
           }
         }
@@ -186,6 +186,11 @@ export class DashboardComponent implements OnInit {
       {//if data retrievel is successful
         this.checkerClass = 'alert alert-success';
         this.checker = data.message;
+
+        setTimeout(() =>
+        {//set a timeout of 1000ms then refresh window
+          this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
+        }, 50);
       }
     });
   } 

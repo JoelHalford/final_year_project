@@ -1,6 +1,10 @@
 const User = require('../models/user'); //Import user model schema
+const Product = require('../models/product'); 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+
+var username;
+var userAdmin;
 
 module.exports = (router) => {
 
@@ -20,7 +24,7 @@ module.exports = (router) => {
 			let user = new User({//if both created, store username and password in variables
 				username: req.body.username.toLowerCase(),
 				password: req.body.password,
-        admin: req.body.admin
+        admin: false
 			});
 			user.save((err) => {//save user
 				if (err) {//if error message
@@ -97,7 +101,7 @@ module.exports = (router) => {
   //intercept headers/get user profile
   router.get('/profile', (req, res) => 
   {//search for user in database
-    User.findOne({ _id: req.decoded.userId }).select(['username']).exec((err, user) => {
+    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => {
       //check if error connecting
       if (err) 
       {
@@ -136,7 +140,8 @@ module.exports = (router) => {
         else if (user.admin == 'false' || user.admin == false)
         {
           res.json({ success: false, message: 'You are not an admin' });
-        } else
+        } 
+        else
         {// Return success, send user object to frontend for profile
           res.json({ success: true, user: user });
         }
@@ -170,6 +175,48 @@ module.exports = (router) => {
   	}
   })
 
+  router.delete('/deleteUser/:id', (req,res) =>
+  {//route for deleting user
+    if (!req.params.id)
+    {//if no ID was provided
+      res.json({ success: false, message: 'No ID given.'});
+    }
+    else
+    {//if ID was provided
+      User.findOne({ _id: req.decoded.userId }, (err, user2) =>
+      {
+        userAdmin = user2.admin;
+        username = user2.username;
+      });
+
+      User.findOne({ _id: req.params.id }, (err, user) =>
+      {//find single user in database
+        console.log(user.username);
+        if (err)
+        {//if error, post invalid ID
+          res.json({ success: false, message: 'Invalid ID.'});
+        }
+        else if (!user)
+        {//if user not found
+          res.json({ success: false, message: 'User not found.'});
+        }
+        else if (username == user.username || userAdmin == 'true' || userAdmin == true)
+            {//if no errors returned
+                user.remove((err) =>
+                {//try to remove user from database
+                  if (err)
+                  {//if any errors
+                    res.json ({ success: false, message: err });
+                  }
+                  else
+                  {
+                    res.json ({ success: true, message: 'User deleted successfully.' });
+                  }
+                })
+              }
+            })
+          }
+        });
   return router; // Return router object to main index.js
 }
 

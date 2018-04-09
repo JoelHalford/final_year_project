@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 export class HomeComponent implements OnInit {
 
   username;
+  admin;
 
   constructor(
 	private authService: AuthService
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
   	{
 	  	this.authService.getProfile().subscribe(profile => {
 	  		this.username = profile.user.username;
+        this.admin = profile.user.admin;
 	  	});
   	}
   }

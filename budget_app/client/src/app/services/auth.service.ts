@@ -80,4 +80,10 @@ export class AuthService
     this.createAuthHeaders();
     return this.http.get(this.domain + 'auth/publicProfile/' + username, this.options).map(res => res.json());
   }
+  //delete a user
+  deleteUser(id)
+  {//service for deleting product
+    this.createAuthHeaders();
+    return this.http.delete(this.domain + 'auth/deleteUser/' + id, this.options).map(res => res.json());
+  }
 }

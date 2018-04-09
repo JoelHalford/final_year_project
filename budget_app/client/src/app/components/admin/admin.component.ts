@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +19,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
   		private authService: AuthService,
-      	private productService: ProductService
+      private productService: ProductService,
+      private router: Router
   ) { }
 
   ngOnInit() 
@@ -31,6 +32,7 @@ export class AdminComponent implements OnInit {
       	{
   			this.checkerClass = 'alert alert-danger';
   			this.checker = profile.message;
+        this.router.navigate(['/']);
       	}
       	else
       	{
@@ -90,11 +92,34 @@ export class AdminComponent implements OnInit {
   			this.checker = data.message;
 
   			setTimeout(() => 
-  			{//redirect back to /products after 2.5 seconds
+  			{//get updated list of products
   				this.productPosts = [];
   				this.getAllProducts();
-  			}, 2500);
+  			}, 50);
   		}
   	});
+  }
+
+  deleteUser(_id)
+  {//function for deleting a product
+    this.authService.deleteUser(_id).subscribe(data =>
+    {//grabs the current id of the url
+      if (!data.success)
+      {//if sending of data is unsuccessful, throw danger warning
+        this.checkerClass = 'alert alert-danger';
+        this.checker = data.message;
+      }
+      else
+      {//else if successful, throw success warning
+        this.checkerClass = 'alert alert-success';
+        this.checker = data.message;
+
+        setTimeout(() => 
+        {//get updated list of users
+          this.userPosts = [];
+          this.getAllUsers();
+        }, 50);
+      }
+    });
   }
 }

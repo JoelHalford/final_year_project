@@ -6,7 +6,7 @@
 	<br />
 	<li class="list-group-item"><strong>Total posts: </strong> {{ numOfPosts() }} </li>
 	<br/>
-	<li class="list-group-item"><strong>Delete Account: <a ><button type="button" name="button" class="btn btn-danger" id="deleteButton">Delete</button></a></strong></li>
+	<li class="list-group-item"><strong>Delete Account: <a [routerLink]="['/delete-user/', id]"><button type="button" name="button" class="btn btn-sm btn-info">Delete</button></a></strong></li>
 	<br/>
 	<table class="table table-striped">
 		<thead>

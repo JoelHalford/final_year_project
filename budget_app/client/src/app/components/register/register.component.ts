@@ -109,6 +109,11 @@ export class RegisterComponent implements OnInit {
       {//if data successful
   			this.checkerClass = 'alert alert-success';
   			this.checker = data.message;
+
+        setTimeout(() => 
+        {//set timeout of 2500ms
+          this.router.navigate(['/login']); //navigate to dashboard view
+        }, 2500);
   		}
   	});
   }

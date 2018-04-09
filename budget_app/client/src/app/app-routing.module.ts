@@ -8,6 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { DeleteUserComponent } from './components/profile/delete-user/delete-user.component';
 import { ProductComponent } from './components/product/product.component';
 import { EditProductComponent } from './components/product/edit-product/edit-product.component';
 import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';
@@ -58,6 +59,11 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent, //profile route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
+    path: 'delete-user/:id',
+    component: DeleteUserComponent, //delete product route
     canActivate: [AuthGuard]       //if user is logged in, can activate
   },
   {

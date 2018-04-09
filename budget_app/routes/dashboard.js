@@ -62,7 +62,7 @@ module.exports = (router) => {
 				{
 					if (err.errors.budget_price) 
 					{//if error caused by budget price
-						res.json({ success: false, message: err.errors.budget_price.message });
+						res.json({ success: false, message: "Must be a number." });
 					}						
 					else
 					{//if another error
@@ -127,7 +127,7 @@ router.put('/editBudget', (req, res) =>
 							{
 								if (err)
 								{//if any errors saving, output error message
-									res.json({ success: false, message: err });
+									res.json({ success: false, message: "Budget must be a number." });
 								}
 								else
 								{//if no errors, update budget

@@ -29,6 +29,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { FilterPipe } from './filter.pipe';
+import { DeleteUserComponent } from './components/profile/delete-user/delete-user.component';
                    
 //end of service imports 
 
@@ -46,7 +47,8 @@ import { FilterPipe } from './filter.pipe';
     DeleteProductComponent,
     PublicProfileComponent,
     AdminComponent,
-    FilterPipe
+    FilterPipe,
+    DeleteUserComponent
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,

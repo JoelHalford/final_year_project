@@ -10,6 +10,7 @@ import { ProductService } from '../../services/product.service';
 export class ProfileComponent implements OnInit {
 
 	username; //users username
+  id;
   overallLikes = 0;   //users overall likes
   productPosts = [];  //array of product posts
 
@@ -23,6 +24,7 @@ export class ProfileComponent implements OnInit {
   	this.authService.getProfile().subscribe(profile => 
     {//subscribe to getProfile service inside /services/auth.service
       //set logged in user to username
+      this.id = profile.user._id;
   		this.username = profile.user.username;
       //call getAllProducts
       this.getAllProducts();

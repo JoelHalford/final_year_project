@@ -56,9 +56,9 @@
 		<div [ngClass]="{'has-success': form.controls.product_location.valid, 'has-error': form.controls.product_location.dirty && form.controls.product_location.errors}">
 			<input type="text" name="product_location" class="form-control" placeholder="Product location" autocomplete="off" formControlName="product_location" />
 	       <ul class="help-block">
-		        <li *ngIf="(form.controls.product_location.dirty && form.controls.product_location.errors?.minlength) || (form.controls.product_location.dirty && form.controls.product_location.errors?.maxlength)">Length between 4 & 40.</li>
+		        <li *ngIf="(form.controls.product_location.dirty && form.controls.product_location.errors?.minlength) || (form.controls.product_location.dirty && form.controls.product_location.errors?.maxlength)">Length between 4 and 40.</li>
 		        <li *ngIf="form.controls.product_location.dirty && form.controls.product_location.errors?.alphaNumericValidation">Must be a letter or number</li>
-	        </ul>
+          </ul>
 		</div>
 	<!-- end of product name input -->
 	</div>
