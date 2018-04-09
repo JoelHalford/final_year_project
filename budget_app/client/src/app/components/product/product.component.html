@@ -69,7 +69,7 @@
 		<div [ngClass]="{'has-success': form.controls.product_id.valid, 'has-error': form.controls.product_id.dirty && form.controls.product_id.errors}">
 			<input type="text" name="product_id" class="form-control" placeholder="Product ID" autocomplete="off" formControlName="product_id" />
 	       <ul class="help-block">
-		        <li *ngIf="(form.controls.product_id.dirty && form.controls.product_id.errors?.minlength) || (form.controls.product_id.dirty && form.controls.product_id.errors?.maxlength)">Length between 4 & 40.</li>
+		        <li *ngIf="(form.controls.product_id.dirty && form.controls.product_id.errors?.maxlength)">Length between 4 & 40.</li>
 		        <li *ngIf="form.controls.product_id.dirty && form.controls.product_id.errors?.alphaNumericValidation">Must be a letter or number</li>
 	        </ul>
 		</div>
@@ -102,7 +102,7 @@
 
   <!-- start of infinite scroll -->
   <div class="search-results"
-          infiniteScroll
+          infinite-scroll
           [infiniteScrollDistance]="2"  
           [infiniteScrollThrottle]="50"
           (scrolled)="onScroll()">

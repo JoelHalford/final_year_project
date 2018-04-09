@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	form: FormGroup;     //exports form
+	form;     //exports form
 	checker;		         //sends validation message
 	checkerClass;	       //checks validation
 	processing = false;	 //disable button

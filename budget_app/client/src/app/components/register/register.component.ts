@@ -11,7 +11,7 @@ import {AuthService} from '../../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-	form: FormGroup; //exports form
+	form; //exports form
 	checker;		 //sends validation message
 	checkerClass;	 //checks validation
 	processing = false;	//disable button

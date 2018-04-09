@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';         //ngModule for rea
 import { HttpModule } from '@angular/http';                   //
 import { AppRoutingModule } from './app-routing.module';      //
 import { ChartsModule } from 'ng2-charts';    //module displaying charts
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 //end of module imports
 //start of component imports
 import { AppComponent } from './app.component';

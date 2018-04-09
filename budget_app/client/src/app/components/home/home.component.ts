@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   admin;
 
   constructor(
-	private authService: AuthService
+	public authService: AuthService
   ) { }
 
   ngOnInit() 

@@ -56,7 +56,6 @@ export class ProductComponent implements OnInit {
   		])],
       //validation for product_id
   		product_id: ['', Validators.compose([
-  			Validators.required,          //id is required
   			Validators.minLength(1),      //maximum length of 1
   			Validators.maxLength(40),  		//maximum length of 40	
   			this.alphaNumericValidation   //uses alphanumericValidation function
