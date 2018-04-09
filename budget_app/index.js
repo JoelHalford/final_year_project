@@ -2,6 +2,7 @@
    Import Node Modules
 =================== */
 const express = require('express'); //web framework for node
+const multer = require('multer'); //used for image saving
 const app = express(); //initialise express app
 const router = express.Router(); //initialise router through express
 const mongoose = require('mongoose'); //schema for MongoDB
@@ -47,3 +48,5 @@ app.get('*', (req, res) => {
 app.listen(8080, () => {
   console.log('Listening on port 8080');
 });
+
+module.exports = app;

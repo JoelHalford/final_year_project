@@ -79,7 +79,7 @@ const userSchema = new Schema({//setup for user schema
 		validate: passwordValidators
 	},
 	admin: {
-		type: String,
+		type: Boolean,
 		required: false
 	}
 });

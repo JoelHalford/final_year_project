@@ -51,7 +51,7 @@ module.exports = (router) => {
 		const budget = new Budget(
 		{//create an object for budget
 			username: req.body.username,
-			budget_price: req.body.budget_price
+			budget_price: parseFloat(req.body.budget_price).toFixed(2)
 		});
 
 		budget.save((err) => 
@@ -120,7 +120,8 @@ router.put('/editBudget', (req, res) =>
 						}
 						else
 						{//if user is the creator of the budget, allow them to edit							
-							budget.budget_price = req.body.budget_price;
+							budget.budget_price = Number.parseFloat(req.body.budget_price).toFixed(2),
+							budget.budget_spent = Number.parseFloat(req.body.budget_spent).toFixed(2),
 
 							budget.save((err) =>
 							{
@@ -141,59 +142,6 @@ router.put('/editBudget', (req, res) =>
 		}
 
 	});
-
-// router.put('/editBudget', (req, res) => 
-// 	{//update a budget
-// 		if(!req.body._id) 
-// 		{//return error if no ID provided
-// 			res.json({ success: false, message: 'No budget ID provided.'});
-// 		}
-// 		else
-// 		{
-// 			Budget.findOne({ _id: req.body._id }, (err, budget) =>
-// 			{
-// 				if (err)
-// 				{///if error not a valid budget ID
-// 					res.json({ success: false, message: 'Budget ID not valid.'});
-// 				}
-// 				else if (!budget)
-// 				{//if budget ID not found
-// 					res.json({ success: false, message: 'Budget ID not found'});
-// 				}
-// 				else
-// 				{//check user was the one that
-// 					User.findOne({ _id: req.decoded.userId }, (err, user) =>
-// 					{
-// 						if (err)
-// 						{//if an error occurs
-// 							res.json({ success: false, message: err });
-// 						}
-// 						else if (!user)
-// 						{//if user is not found
-// 							res.json({ success: false, message: 'Unable to find user.'});
-// 						}
-// 						else
-// 						{//if user is the creator of the budget, allow them to edit
-// 							budget.budget_spent = req.body.budget_spent;
-// 							budget.save((err) =>
-// 							{
-// 								if (err)
-// 								{//if any errors saving, output error message
-// 									res.json({ success: false, message: err });
-// 								}
-// 								else
-// 								{//if no errors, update budget
-// 									res.json({ success: true, message: 'Budget updated successfully.'});
-// 								}
-// 							});
-// 						}
-
-// 					});
-// 				}
-// 			});
-// 		}
-
-// 	});
 
 	return router;
 };

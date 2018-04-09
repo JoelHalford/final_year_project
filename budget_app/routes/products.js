@@ -2,6 +2,17 @@ const User = require('../models/user'); 		//import user model schema
 const Product = require('../models/product');   //import product model schema
 const jwt = require('jsonwebtoken');
 const config = require('../config/database'); //import database config
+const multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, __dirname+'./uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+
 
 module.exports = (router) => {
 
@@ -21,6 +32,17 @@ module.exports = (router) => {
 		} 
 		else 
 		{//if no errors were found
+			// upload(req, res, function(err)
+			// {
+			// 	if (err)
+			// 	{
+			// 		res.json({ success: false, message: 'Unable to upload image.'});
+			// 	}
+			// 	else
+			// 	{
+			// 		res.json({ success: true, message: 'Image uploaded successfully.'})
+			// 	}
+			// });
 			const product = new Product(
 			{//create an object for product
 				product_name: req.body.product_name,
@@ -194,7 +216,7 @@ module.exports = (router) => {
 						else
 						{//if user is the creator of the product, allow them to edit
 							product.product_name = req.body.product_name;
-							product.product_price = req.body.product_price;
+							product.product_price = Number.parseFloat(req.body.product_price).toFixed(2),
 							product.product_location = req.body.product_location;
 							product.product_id = req.body.product_id;
 							product.save((err) =>

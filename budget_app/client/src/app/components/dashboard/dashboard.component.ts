@@ -12,11 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';    //enables capture o
 })
 export class DashboardComponent implements OnInit {
 
-  chartData = 
+  chartData = //initialisating chart data
   [//data for the chart with label name
-    { data: [330, 600, 260, 700], label: 'January' },
-    { data: [120, 455, 100, 340], label: 'February' },
-    { data: [45, 67, 800, 500], label: 'March' }
+    { data: [0, 0, 0, 0], label: 'No budget yet' }
+    // { data: [120, 455, 100, 340], label: 'February' },
+    // { data: [45, 67, 800, 500], label: 'March' }
   ];
 
   chartOptions = 
@@ -78,12 +78,34 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() 
   {//on intitialisation
+    console.log("hi");
   	this.authService.getProfile().subscribe(profile => 
     {//subscribe to data retrieved inside /services/auth.service
   		this.username = profile.user.username;  //grabs current users username
   	});
 
-    this.getDate();         //get date
+    this.getDate();   //get date
+
+    this.productService.getAllBudgets().subscribe(data => 
+    {//subscribe to getAllBudgets set up inside /services/product.service
+
+      for (let i = 0; i < data.budgets.length; i++)
+      {//loop through budgets
+        this.chartData = [];
+        if (data.budgets[i].username == this.username)
+        {//if username linked to budget is same as logged in user, 
+          this.dateNow = data.budgets[i].date_now.substring(0, 7);
+
+          if (this.dateNow == this.yearMonth)
+          {//if current date is same as budget date
+            //push latest month into chartData
+            this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_spent], label: this.dateNow });
+            break;
+          }
+        }
+      }
+    });
+
     this.getAllProducts();  //get all products
     this.getAllBudgets();   //get all budgets
     this.getCurrentBudget();//get current budget
@@ -124,10 +146,13 @@ export class DashboardComponent implements OnInit {
           if (data.budgets[i].username == this.username)
           {//if username linked to budget is same as logged in user, 
             //push object into budget
+            //console.log(data.budgets[i].budget_price);
+            
             this.budgetPosts.push(data.budgets[i]);
+            //this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_spent], label: data.budgets[i].username });
           }
         }
-      }, 50);
+      }, 500);
     });
   }
 

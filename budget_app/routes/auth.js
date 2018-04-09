@@ -4,6 +4,10 @@ const config = require('../config/database');
 
 module.exports = (router) => {
 
+  router.get('/get-token', function(req, res) {
+    var token = jwt.sign({foo: 'bar'}, 'my-secret');
+    res.send({token: token});
+  });
 	//validation for register POST
 	router.post('/register', (req,res) => {
 
@@ -15,7 +19,8 @@ module.exports = (router) => {
 		} else {
 			let user = new User({//if both created, store username and password in variables
 				username: req.body.username.toLowerCase(),
-				password: req.body.password
+				password: req.body.password,
+        admin: req.body.admin
 			});
 			user.save((err) => {//save user
 				if (err) {//if error message
@@ -61,7 +66,7 @@ module.exports = (router) => {
 						res.json({ success: false, message: 'Password not valid'});
 					} else {//if success, create token and user
 						const token = jwt.sign({ userId: user._id }, config.secret, {expiresIn: '24h'}); //creates user token with ID from DB, expires in 12h
-						res.json({ success: true, message: 'Success!', token: token, user: { username: user.username }});	//sends back success, user token and username
+            res.json({ success: true, message: 'Success!', token: token, user: { username: user.username }});	//sends back success, user token and username
 					}
 				}
 			});
@@ -128,7 +133,7 @@ module.exports = (router) => {
         {// Return error, user was not found in db
           res.json({ success: false, message: 'User not found' });
         } 
-        else if (user.admin == 'false')
+        else if (user.admin == 'false' || user.admin == false)
         {
           res.json({ success: false, message: 'You are not an admin' });
         } else
