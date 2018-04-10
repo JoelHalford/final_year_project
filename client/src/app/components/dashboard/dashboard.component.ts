@@ -210,7 +210,8 @@ export class DashboardComponent implements OnInit {
                 //set budgetID to that of current budgets ID
                 this.budgetID = data.budgets[i]._id;
                 //set currentBudget to that of current budgets budget_price
-                this.currentBudget = data.budgets[i].budget_price;                
+                this.currentBudget = data.budgets[i].budget_price;
+                (document.getElementById("budgetNow") as HTMLInputElement).value = this.currentBudget;
                 if (this.priceSpent != data.budgets[i].budget_spent)
                 {//if priceSpent is not equal to the one inside current budgets
                   let budget = 
