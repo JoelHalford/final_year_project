@@ -111,23 +111,24 @@ export class DashboardComponent implements OnInit {
   {//get all products to display
     this.productService.getAllProducts().subscribe(data => 
     {//subscribe to data retrieved inside /services/product.service
+      this.productPosts = [];
       setTimeout(() =>
-        {//set a timeout of 50ms
-      for (let i = 0; i < data.products.length; i++)
-      {//loop through products
-        if (data.products[i].createdBy == this.username)
-        {//if current product is the same as the username, add product to productPosts array
-          this.productPosts.push(data.products[i]);
-          //get the first 8 chracters of the createdAt date and add to variable dateNow
-          this.dateNow = data.products[i].createdAt.substring(0, 7);
+      {//set a timeout of 50ms
+        for (let i = 0; i < data.products.length; i++)
+        {//loop through products
+          if (data.products[i].createdBy == this.username)
+          {//if current product is the same as the username, add product to productPosts array
+            this.productPosts.push(data.products[i]);
+            //get the first 8 chracters of the createdAt date and add to variable dateNow
+            this.dateNow = data.products[i].createdAt.substring(0, 7);
 
-          if (this.dateNow == this.yearMonth)
-          {//if dateNow is equal to yearMonth
-            this.spending(data.products[i].product_price);  
+            if (this.dateNow == this.yearMonth)
+            {//if dateNow is equal to yearMonth
+              this.spending(data.products[i].product_price);  
+            }
           }
         }
-      }
-    }, 50);
+      }, 50);
     });
   }
 
@@ -135,6 +136,7 @@ export class DashboardComponent implements OnInit {
   {//get all budgets
     this.productService.getAllBudgets().subscribe(data => 
     {//subscribe to getAllBudgets set up inside /services/product.service
+      this.budgetPosts = [];
       setTimeout(() =>
       {//set up a timeout of 50ms
         for (let i = 0; i < data.budgets.length; i++)
@@ -182,7 +184,6 @@ export class DashboardComponent implements OnInit {
         setTimeout(() =>
         {//set a timeout of 1000ms then refresh window
           //this.ngOnInit();
-          window.location.reload();
         }, 50);
       }
     });
@@ -297,7 +298,6 @@ export class DashboardComponent implements OnInit {
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
                 //this.ngOnInit();
-                window.location.reload();
               }, 50);
             }
           });
