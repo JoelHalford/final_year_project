@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
   (
     private formBuilder: FormBuilder,
   	private productService: ProductService,
-  	private authService: AuthService,
+  	public authService: AuthService,
     private router: Router
   ) 
   { 
@@ -143,11 +143,7 @@ export class DashboardComponent implements OnInit {
         {
           if (data.budgets[i].username == this.username)
           {//if username linked to budget is same as logged in user, 
-            //push object into budget
-            //console.log(data.budgets[i].budget_price);
-            
-            this.budgetPosts.push(data.budgets[i]);
-            //this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_spent], label: data.budgets[i].username });
+            this.budgetPosts.push(data.budgets[i]);            
           }
         }
       }, 50);
@@ -302,7 +298,6 @@ export class DashboardComponent implements OnInit {
               this.checker = data.message;
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
-                console.log("hello");
                 this.ngOnInit();
                 //this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
               }, 50);
