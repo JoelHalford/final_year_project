@@ -38,7 +38,7 @@
 		<div class="panel-body" *ngIf="currentBudget != 0">
 			<form (submit)="updateBudgetSubmit()">
 				<p><strong>Budget: </strong> £{{ currentBudget  | number : '1.2-2'}}
-				<a routerLink="/dashboard"><button type="submit" name="save" class="btn btn-info" class="edit_budget" >Edit Budget</button></a>
+				<button type="submit" name="save" class="btn btn-info" class="edit_budget" >Edit Budget</button>
 				<input id="editBudget" class="edit_budget" type="text" name="budgetPrice" placeholder="Budget Price"/>		
 				</p>
 			</form>

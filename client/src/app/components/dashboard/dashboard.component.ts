@@ -180,12 +180,6 @@ export class DashboardComponent implements OnInit {
       {//if data retrievel is successful
         this.checkerClass = 'alert alert-success';
         this.checker = data.message;
-
-        setTimeout(() =>
-        {//set a timeout of 1000ms then refresh window
-          this.getAllBudgets();
-          this.getCurrentBudget();
-        }, 50);
       }
     });
   } 
