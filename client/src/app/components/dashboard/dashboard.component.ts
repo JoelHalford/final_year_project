@@ -280,7 +280,11 @@ export class DashboardComponent implements OnInit {
             {//if data processing is successful, display success message
               this.checkerClass = 'alert alert-success';
               this.checker = data.message;
-              this.router.navigate(['/products']); //navigate to login view
+
+              setTimeout(() => 
+              {//set timeout of 2500ms
+                this.router.navigate(['/products']); //navigate to products view
+              }, 1500);
             }
           });
         }

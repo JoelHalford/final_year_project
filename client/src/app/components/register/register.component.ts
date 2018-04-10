@@ -111,9 +111,9 @@ export class RegisterComponent implements OnInit {
   			this.checker = data.message;
 
         setTimeout(() => 
-        {//set timeout of 2500ms
+        {//set timeout of 1500ms
           this.router.navigate(['/login']); //navigate to login view
-        }, 2500);
+        }, 1500);
   		}
   	});
   }
