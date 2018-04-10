@@ -77,7 +77,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() 
   {//on intitialisation
-    console.log("hi");
   	this.authService.getProfile().subscribe(profile => 
     {//subscribe to data retrieved inside /services/auth.service
   		this.username = profile.user.username;  //grabs current users username
@@ -151,7 +150,7 @@ export class DashboardComponent implements OnInit {
             //this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_spent], label: data.budgets[i].username });
           }
         }
-      }, 500);
+      }, 50);
     });
   }
 
@@ -188,7 +187,8 @@ export class DashboardComponent implements OnInit {
 
         setTimeout(() =>
         {//set a timeout of 1000ms then refresh window
-          this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
+          this.ngOnInit();
+          //this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
         }, 50);
       }
     });
@@ -302,7 +302,9 @@ export class DashboardComponent implements OnInit {
               this.checker = data.message;
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
-                this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
+                console.log("hello");
+                this.ngOnInit();
+                //this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
               }, 50);
             }
           });

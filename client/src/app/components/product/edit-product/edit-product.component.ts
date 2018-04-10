@@ -37,17 +37,15 @@ export class EditProductComponent implements OnInit {
 		{//if data processing is successful, display success message
 			this.checkerClass = 'alert alert-success';
 			this.checker = data.message;
-			setTimeout(() =>
-			{
-				this.router.navigate(['/products']);
-			}, 2500);
 		}
 	});
   }
 
   goBack() {
-  	//goes back to product list
-  	this.location.back();
+    setTimeout(() =>
+    {//goes back to previous page
+      this.location.back();
+    }, 50);
   }
 
   ngOnInit() 
