@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';  //allows reactive
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
-import { ActivatedRoute, Router } from '@angular/router';    //enables capture of URL
 
 @Component({
   selector: 'app-dashboard',
@@ -68,8 +67,7 @@ export class DashboardComponent implements OnInit {
   (
     private formBuilder: FormBuilder,
   	private productService: ProductService,
-  	public authService: AuthService,
-    public router: Router
+  	public authService: AuthService
   ) 
   { 
      this.createNewBudgetForm();
@@ -184,7 +182,7 @@ export class DashboardComponent implements OnInit {
         setTimeout(() =>
         {//set a timeout of 1000ms then refresh window
           //this.ngOnInit();
-          this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
+          window.location.reload();
         }, 50);
       }
     });
@@ -299,7 +297,7 @@ export class DashboardComponent implements OnInit {
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
                 //this.ngOnInit();
-                this.router.navigate(['/dashboard']).then(()=>  {window.location.reload();});
+                window.location.reload();
               }, 50);
             }
           });
