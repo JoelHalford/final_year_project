@@ -183,7 +183,8 @@ export class DashboardComponent implements OnInit {
 
         setTimeout(() =>
         {//set a timeout of 1000ms then refresh window
-          //this.ngOnInit();
+          this.getAllBudgets();
+          this.getCurrentBudget();
         }, 50);
       }
     });
@@ -297,6 +298,7 @@ export class DashboardComponent implements OnInit {
               this.checker = data.message;
               setTimeout(() =>
               {//set a timeout of 1000ms then refresh window
+                this.getAllBudgets();
                 this.getCurrentBudget();
               }, 50);
             }
