@@ -39,7 +39,11 @@
 			<form (submit)="updateBudgetSubmit()">
 				<p><strong>Budget: </strong> £{{ currentBudget  | number : '1.2-2'}}
 				<button type="submit" name="save" class="btn btn-info" class="edit_budget" >Edit Budget</button>
-				<input id="editBudget" class="edit_budget" type="text" name="budgetPrice" placeholder="Budget Price"/>		
+			    <div class="col-md-2">
+			      <div class="input-group">
+					<input id="editBudget" class="edit_budget" type="text" name="budgetPrice" placeholder="Budget Price"/>	
+				  </div>
+				</div>	
 				</p>
 			</form>
 		  	<p><strong>Total Spent: </strong>£{{ priceSpent | number : '1.2-2'}}</p>
