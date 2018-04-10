@@ -65,10 +65,7 @@ export class ProfileComponent implements OnInit {
   level(likes)
   {
     this.postLevel = this.numOfPosts();
-    console.log("likes " + likes);
-    console.log("posts " + this.postLevel);
     this.userLevel = this.postLevel + likes / 4;
-    console.log("level " + this.userLevel);
     if (this.userLevel < 0)
     {
       this.userLevel = 0;
