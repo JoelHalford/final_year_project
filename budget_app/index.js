@@ -2,12 +2,15 @@
    Import Node Modules
 =================== */
 const express = require('express'); //web framework for node
+const multer = require('multer'); //used for image saving
 const app = express(); //initialise express app
 const router = express.Router(); //initialise router through express
 const mongoose = require('mongoose'); //schema for MongoDB
 const config = require('./config/database'); //config for mongoose
 const path = require('path'); //package for filepaths
-const auth = require('./routes/auth')(router);//initialise authentication router for whole website
+const auth = require('./routes/auth')(router);//initialise authentication router
+const products = require('./routes/products')(router);//initialise products router
+const dashboard = require('./routes/dashboard')(router);//initialise products router
 const bodyParser =require('body-parser');
 const cors = require('cors');//enables cross-platform communication between frontend and backend
 
@@ -31,15 +34,19 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //provides static directory for frontend
-app.use(express.static(__dirname + '/client/dist/'));
+app.use(express.static(__dirname + '/public'));
 app.use('/auth', auth);
+app.use('/product', products);
+app.use('/dashboard', dashboard);
 
 //connects server to angular2 index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // Start Server: Listen on port 8080
 app.listen(8080, () => {
   console.log('Listening on port 8080');
 });
+
+module.exports = app;

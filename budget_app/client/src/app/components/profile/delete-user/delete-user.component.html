@@ -1,0 +1,32 @@
+<h1 class="page-header" style="text-align: center">Delete User</h1>
+
+<div class="row show-hide-message" *ngIf="checker">
+	<div [ngClass]="checkerClass">
+		{{ checker }}
+	</div>
+</div>
+
+<div class="col-md-6 confirmDeletion" *ngIf="foundUser">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h3 class="modal-title">Confirm</h3>
+		</div>
+		<div class="modal-body">
+			<p>Are you sure you would like to delete {{ username }}?</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" name="button" class="btn btn-success" (click)="deleteUser()">Yes</button>
+			<a routerLink="/products"><button type="button" name="button" class="btn btn-danger">No</button></a>
+		</div>
+	</div>
+	<br/>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ username }}</h3>
+		</div>
+		<div class="panel-body">
+			<p>{{ likes }}</p>
+			<p>{{ posts }}</p>
+		</div>
+	</div>
+</div>

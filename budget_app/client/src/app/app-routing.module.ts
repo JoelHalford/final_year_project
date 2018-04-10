@@ -8,7 +8,17 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { DeleteUserComponent } from './components/profile/delete-user/delete-user.component';
+import { ProductComponent } from './components/product/product.component';
+import { EditProductComponent } from './components/product/edit-product/edit-product.component';
+import { DeleteProductComponent } from './components/product/delete-product/delete-product.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { AdminComponent } from './components/admin/admin.component';
 //end of component imports
+//start of authorisation
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+//end of authorisation
 
 //array of angular 2 routes
 const appRoutes: Routes = [
@@ -18,19 +28,53 @@ const appRoutes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent // Dashboard Route
+    component: DashboardComponent, //dashboard Route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
   },  
   {
     path: 'register',
-    component: RegisterComponent // Register Route
+    component: RegisterComponent, //register Route
+    canActivate: [NotAuthGuard]   //if user is not logged in, can activate
   },  
   {
     path: 'login',
-    component: LoginComponent // Login Route
+    component: LoginComponent,     //login Route
+    canActivate: [NotAuthGuard]    //if user is not logged in, can activate
+  },
+  {
+    path: 'products',
+    component: ProductComponent,  //product route
+    canActivate: [AuthGuard]    //if user is not logged in, can activate
   },  
   {
+    path: 'edit-product/:id',
+    component: EditProductComponent, //edit product route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },  
+  {
+    path: 'delete-product/:id',
+    component: DeleteProductComponent, //delete product route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
     path: 'profile',
-    component: ProfileComponent // Login Route
+    component: ProfileComponent, //profile route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
+    path: 'delete-user/:id',
+    component: DeleteUserComponent, //delete product route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
+    path: 'user/:username',
+    component: PublicProfileComponent, //public profile route
+    canActivate: [AuthGuard]       //if user is logged in, can activate
+  },
+  {
+    path: 'admin',         //routes to /admin
+    component: AdminComponent,  //admin route
+    canActivate: [AuthGuard]    //if user is logged in, can activate
   },
   { path: '**', component: HomeComponent } // Anything else Route
 ];

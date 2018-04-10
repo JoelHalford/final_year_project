@@ -1,0 +1,167 @@
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+.newPostReload {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.productForm {
+    padding: 1em;
+}
+
+.productForm h2 {
+    text-align: center;
+}
+
+#buttons {
+    text-align: center;
+    margin-top: 1em;
+}
+
+h1 {
+    text-align: center;
+}
+
+.page-header, h2, label {
+    color: #d4d4d6;
+}
+
+.panel-products {
+    font-size: 1.5em;
+}
+
+.panel-title {
+    font-size: 1.2em;
+}
+
+.help-block {
+    font-size: 1.5em;
+    color: #e5682d;
+}
+
+button {
+    font-size: 0.8em;
+}
+
+.creator {
+    color: white;
+    text-decoration: underline;
+}
+
+.page-header{
+    text-align: center;
+    color: #d4d4d6;
+}
+
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 4em; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+
+#newProductButton {
+    margin-top: 2em;
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#refreshProductButton {
+    margin-top: 2em;
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#backButton {
+    padding: 1em;
+    font-size:1.2em;
+    float: left;
+}
+
+#resetButton {
+    padding: 1em;
+    font-size:1.2em;
+}
+
+#addButton {
+    padding: 1em;
+    font-size:1.2em;
+    float: right;
+}
+
+input {
+    padding: 1.5em;
+    font-size: 1.3em;
+}
+
+label {
+    font-size: 1.5em;
+}
+
+#bottom {
+    margin-bottom: 5em;
+}
+
+#private {
+    width: 1em;
+    height: 1em;
+    float: right;
+}
+
+#private-label, #private{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#filterProduct {
+    font-size: 1em;
+    padding: 0.5em;
+}
+
+#filter {
+    text-align: center;
+}
+
+/*.search-results {
+            height: 20rem;
+            overflow: scroll;
+}*/

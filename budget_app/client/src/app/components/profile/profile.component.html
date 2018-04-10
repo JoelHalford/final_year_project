@@ -1,4 +1,35 @@
 <h1 class="page-header"> Profile Page</h1>
 <ul class="list-group">
-	<li class="list-group-item">Username: {{ username }}</li>
+	<li class="list-group-item"><strong>Username: </strong>{{ username }}</li>
+	<br />
+	<li class="list-group-item"><strong>Total likes: </strong> {{ overallLikes }} </li>
+	<br />
+	<li class="list-group-item"><strong>Total posts: </strong> {{ numOfPosts() }} </li>
+	<br/>
+	<li class="list-group-item"><strong>Delete Account: <a [routerLink]="['/delete-user/', id]"><button type="button" name="button" class="btn btn-sm btn-info">Delete</button></a></strong></li>
+	<br/>
+	<table class="table table-striped">
+		<thead>
+			<tr class="info">
+				<th>#</th>
+				<th>Name</th>			
+				<th>Price</th>			
+				<th>Location</th>			
+				<th>Likes</th>
+				<th>ID</th>
+				<th>Date added</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="success" *ngFor="let product of productPosts; let i = index">
+				<td>{{ i+1 }}</td>
+				<td>{{ product.product_name }}</td>
+				<td>£{{ product.product_price | number : '1.2-2'}}</td>
+				<td>{{ product.product_location }}</td>
+				<td>{{ product.likes }}</td>
+				<td>{{ product.product_id }}</td>
+				<td>{{ product.createdAt | date: 'dd/MMM/yyyy' }}</td>
+			</tr>
+		</tbody>
+	</table>
 </ul>

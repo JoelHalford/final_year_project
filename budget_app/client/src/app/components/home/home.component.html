@@ -1,8 +1,18 @@
 <div class="jumbotron text-center" id="jumbo">
   <h2>Budget and Order Storage</h2>
-  <p class="lead">Welcome</p>
+  <p class="lead" *ngIf="!authService.loggedIn()">Welcome</p>
+  <p class="lead" *ngIf="authService.loggedIn()">Welcome, {{username}}.</p>
   <div>
-    <a routerLink="/register" class="btn btn-primary">Register</a>
-    <a routerLink="/login" class="btn btn-default">Login</a>
+    <a *ngIf="!authService.loggedIn()" routerLink="/register" class="btn btn-primary">Register</a>
+    <br/>
+    <a *ngIf="!authService.loggedIn()" routerLink="/login" class="btn btn-warning">Login</a>
+    <br/>
+    <a *ngIf="authService.loggedIn()" routerLink="/products" class="btn btn-primary">View Products</a>
+    <br/>
+    <a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="btn btn-info">View Dashboard</a>
+    <br/>
+    <a *ngIf="authService.loggedIn()" routerLink="/dashboard" class="btn btn-warning">View Profile</a>
+    <br/>
+    <a *ngIf="admin == true" routerLink="/admin" class="btn btn-danger">Admin Page</a>
   </div>
 </div>
