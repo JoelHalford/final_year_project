@@ -13,6 +13,9 @@ export class ProfileComponent implements OnInit {
   id;
   overallLikes = 0;   //users overall likes
   productPosts = [];  //array of product posts
+  likeLevel = 0;
+  postLevel = 0;
+  userLevel = 0;
 
   constructor(
   		private authService: AuthService,
@@ -47,11 +50,26 @@ export class ProfileComponent implements OnInit {
             this.overallLikes += data.products[i].likes;
           }
         }
+        this.likeLevel = this.overallLikes * 2;
+        this.level(this.likeLevel);
       }, 50);
     });
   }
+
   numOfPosts()
   {//returns the length of productPosts
+    this.postLevel = this.productPosts.length;
     return this.productPosts.length;
+  }
+
+  level(likes)
+  {
+    this.postLevel = this.numOfPosts();
+    this.userLevel = this.postLevel + likes / 4;
+    if (this.userLevel < 0)
+    {
+      this.userLevel = 0;
+    }
+
   }
 }
