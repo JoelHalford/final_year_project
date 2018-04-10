@@ -4,8 +4,8 @@
   "description": "Budgeting app for purchases",
   "main": "index.js",
   "scripts": {
-    "start": "../nodemon index.js",
-    "build": "cd ../client && ng build --prod && cd.. && node index.js"
+    "start": "nodemon index.js",
+    "build": "cd client && ng build --prod && cd.. && node index.js"
   },
   "keywords": [
     "Budgeting",
