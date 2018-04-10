@@ -101,11 +101,10 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
-    setInterval(() =>{
-      this.getAllProducts();  //get all products
-      this.getAllBudgets();   //get all budgets
-      this.getCurrentBudget();//get current budget
-    }, 5000);
+
+    this.getAllProducts();  //get all products
+    this.getAllBudgets();   //get all budgets
+    this.getCurrentBudget();//get current budget
   }
 
   getAllProducts() 
@@ -297,11 +296,6 @@ export class DashboardComponent implements OnInit {
             {//if data processing is successful, display success message
               this.checkerClass = 'alert alert-success';
               this.checker = data.message;
-              setTimeout(() =>
-              {//set a timeout of 1000ms then refresh window
-                this.getAllBudgets();
-                this.getCurrentBudget();
-              }, 50);
             }
           });
         }
