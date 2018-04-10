@@ -34,14 +34,14 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //provides static directory for frontend
-app.use(express.static(__dirname + '/client/dist/'));
+app.use(express.static(__dirname + '/public'));
 app.use('/auth', auth);
 app.use('/product', products);
 app.use('/dashboard', dashboard);
 
 //connects server to angular2 index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // Start Server: Listen on port 8080

@@ -10,7 +10,7 @@ var expect = chai.expect;
 //allows use of should (i.e resp.SHOULD.redirectTo(...))
 chai.should();
 
-describe('Test Route with Token', function() {
+describe('[NOT LOGGED IN]', function() {
 
   this.timeout(5000);
 
@@ -28,7 +28,7 @@ describe('Test Route with Token', function() {
   it('Create admin user', function(done) 
     {//creates a user by passing object to /auth/register
     //sets a user object with username, password, password2  and admin status
-    var user = { username : 'UnitTest3', password: 'Aa!1aaaa', password2: 'Aa!1aaaa', admin: true };
+    var user = { username : 'UnitTest2', password: 'Aa!1aaaa', password2: 'Aa!1aaaa', admin: true };
     request(app)
       .post('/auth/register')
       .send(user) //send user object to /auth/register
@@ -60,7 +60,7 @@ describe('Test Route with Token', function() {
       .expect({success: false, message: 'No token provided'}, done);
   });
 
-  it('Unable to reach /auth/admin due to no token', function(done) 
+  it('Can reach /auth/admin due to admin status', function(done) 
   {//try to visit /admin
     request(app)
       .get('/auth/admin')
@@ -167,7 +167,7 @@ describe('[ADMIN CHECK]', function()
   {//before any tests are run, log in to unit test account created earlier
     agent
       .post('/auth/login')
-      .send({username: 'unittest3', password: 'Aa!1aaaa'})
+      .send({username: 'unittest3', password: 'Aa!1aaaa', admin: true})
       .end(function(err, res) {
         token = res.body.token;
         done();
@@ -176,9 +176,9 @@ describe('[ADMIN CHECK]', function()
 
   it('Unable to access admin page due to not having admin rights.', function(done) 
   {//try to visit /admin
-    request(app)
+    agent
       .get('/auth/admin')
       .set('auth', token)
-      .expect( {"success":true, "user": {"_id": "5acaecb901a72e53a4c9fab0", "admin": true, "username": "unittest3"}}, done);
+      .expect( {"success":true, "user": {"_id": "5acbebfb13da3c3558542658", "admin": true, "username": "unittest3"}}, done);
   });
 });
