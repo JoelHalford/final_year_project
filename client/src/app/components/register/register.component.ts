@@ -112,7 +112,7 @@ export class RegisterComponent implements OnInit {
 
         setTimeout(() => 
         {//set timeout of 2500ms
-          this.router.navigate(['/login']); //navigate to dashboard view
+          this.router.navigate(['/login']); //navigate to login view
         }, 2500);
   		}
   	});

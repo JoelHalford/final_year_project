@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';  //allows reactive
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
 
@@ -67,24 +68,22 @@ export class DashboardComponent implements OnInit {
   (
     private formBuilder: FormBuilder,
   	private productService: ProductService,
-  	public authService: AuthService
+  	public authService: AuthService,
+    private router: Router
   ) 
   { 
      this.createNewBudgetForm();
   }
-
   ngOnInit() 
   {//on intitialisation
   	this.authService.getProfile().subscribe(profile => 
     {//subscribe to data retrieved inside /services/auth.service
   		this.username = profile.user.username;  //grabs current users username
   	});
-
     this.getDate();   //get date
 
     this.productService.getAllBudgets().subscribe(data => 
     {//subscribe to getAllBudgets set up inside /services/product.service
-
       for (let i = 0; i < data.budgets.length; i++)
       {//loop through budgets
         if (data.budgets[i].username == this.username)
@@ -93,20 +92,18 @@ export class DashboardComponent implements OnInit {
 
           if (this.dateNow == this.yearMonth)
           {//if current date is same as budget date
-            //push latest month into chartData
-            this.chartData = [];
+            //push latest month into chartData then break from loop
+            this.chartData = [];  //empty chart
             this.chartData.push({ data: [data.budgets[i].budget_price, data.budgets[i].budget_price - data.budgets[i].budget_spent], label: this.dateNow });
             break;
           }
         }
       }
     });
-
     this.getAllProducts();  //get all products
     this.getAllBudgets();   //get all budgets
     this.getCurrentBudget();//get current budget
   }
-
   getAllProducts() 
   {//get all products to display
     this.productService.getAllProducts().subscribe(data => 
@@ -121,9 +118,9 @@ export class DashboardComponent implements OnInit {
             this.productPosts.push(data.products[i]);
             //get the first 8 chracters of the createdAt date and add to variable dateNow
             this.dateNow = data.products[i].createdAt.substring(0, 7);
-
             if (this.dateNow == this.yearMonth)
             {//if dateNow is equal to yearMonth
+              //pass product_price to spending
               this.spending(data.products[i].product_price);  
             }
           }
@@ -131,16 +128,15 @@ export class DashboardComponent implements OnInit {
       }, 50);
     });
   }
-
   getAllBudgets() 
   {//get all budgets
     this.productService.getAllBudgets().subscribe(data => 
     {//subscribe to getAllBudgets set up inside /services/product.service
-      this.budgetPosts = [];
+      this.budgetPosts = [];  //clear budgetPosts array
       setTimeout(() =>
       {//set up a timeout of 50ms
         for (let i = 0; i < data.budgets.length; i++)
-        {
+        {//loop through all budgets
           if (data.budgets[i].username == this.username)
           {//if username linked to budget is same as logged in user, 
             this.budgetPosts.push(data.budgets[i]);            
@@ -149,7 +145,6 @@ export class DashboardComponent implements OnInit {
       }, 50);
     });
   }
-
   createNewBudgetForm()
   {//set up for new budget form
     this.form = this.formBuilder.group(
@@ -159,7 +154,6 @@ export class DashboardComponent implements OnInit {
         ])]
       })
   }
-
   onBudgetSubmit()
   {//upon submitting budget
     this.processing = true;  //set procesing to true
@@ -180,10 +174,10 @@ export class DashboardComponent implements OnInit {
       {//if data retrievel is successful
         this.checkerClass = 'alert alert-success';
         this.checker = data.message;
+        this.router.navigate(['/products']); //navigate to login view
       }
     });
   } 
-
   getCurrentBudget()
   {//get current budget
     this.currentBudget = 0; //set current budget to zero
@@ -223,7 +217,6 @@ export class DashboardComponent implements OnInit {
       }, 50);
     });
   }
-
   updateBudget(budget) 
   {//submit updated product
     this.productService.editBudget(budget).subscribe(data => 
@@ -240,13 +233,11 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
   spending(product_price)
   {//calculate the price spent
     //price spent equals price spent plus product_price
   	this.priceSpent = (this.priceSpent + product_price);
   }
-
   getDate()
   {//gets current date
     this.yearMonth;
@@ -262,9 +253,8 @@ export class DashboardComponent implements OnInit {
       this.yearMonth = this.year + "-" + this.month;
     }
   }
-
-  updateBudgetSubmit() {
-  //submit updated product
+  updateBudgetSubmit() 
+  {//submit updated product
   this.productService.getAllBudgets().subscribe(data => 
   {//subscribe to getAllBudgets service inside /services/product.service
       for (let i = 0; i < data.budgets.length; i++)
@@ -290,6 +280,7 @@ export class DashboardComponent implements OnInit {
             {//if data processing is successful, display success message
               this.checkerClass = 'alert alert-success';
               this.checker = data.message;
+              this.router.navigate(['/products']); //navigate to login view
             }
           });
         }
