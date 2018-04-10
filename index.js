@@ -13,7 +13,7 @@ const products = require('./routes/products')(router);//initialise products rout
 const dashboard = require('./routes/dashboard')(router);//initialise products router
 const bodyParser =require('body-parser');
 const cors = require('cors');//enables cross-platform communication between frontend and backend
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 // Database Connection
 mongoose.Promise = global.Promise;//uses native promises

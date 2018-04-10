@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Budgeting app for purchases",
   "engines": {
-      "node": "6.11.4"
+      "node": "6.11.4",
+      "npm": "3.10.10"
   },
   "main": "index.js",
   "scripts": {
