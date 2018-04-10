@@ -6,7 +6,7 @@ import { tokenNotExpired } from 'angular2-jwt';	//can check if user is logged in
 @Injectable()
 export class AuthService 
 {
-	domain = "http://localhost:8080/"; //dev domain
+	domain = ""; //dev domain
 	authToken;
 	user;
 	options;
