@@ -109,28 +109,11 @@ let idLengthChecker = (product_id) =>
 	}
 };
 
-let alphaNumericIDChecker = (product_id) => 
-{//check ID is alphanumeric
-	if (!product_id) 
-	{//if no product_id provided, return false
-		return false;
-	} 
-	else 
-	{//if product_id provided, compare with expression and return test
-		const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
-		return regExp.test(product_id);
-	}
-};
-
 const idValidators = 
 [//validation for product ID
 	{//id length validator name and message to send to client
 		validator: idLengthChecker, 
 		message:   "Product ID must be below 40 characters"
-	},
-	{//alphanumeric validator name and message to send to client
-		validator: alphaNumericIDChecker, 
-		message:   "Product ID can't have any special characters"
 	}
 ];
 ///////////////////////////////////////

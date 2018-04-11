@@ -30,6 +30,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 import { AdminComponent } from './components/admin/admin.component';
 import { FilterPipe } from './filter.pipe';
 import { DeleteUserComponent } from './components/profile/delete-user/delete-user.component';
+import { FooterComponent } from './components/footer/footer.component';
                    
 //end of service imports 
 
@@ -48,7 +49,8 @@ import { DeleteUserComponent } from './components/profile/delete-user/delete-use
     PublicProfileComponent,
     AdminComponent,
     FilterPipe,
-    DeleteUserComponent
+    DeleteUserComponent,
+    FooterComponent
   ],
   imports: [//declares which modules are to be imported
     BrowserModule,

@@ -69,8 +69,7 @@
 		<div [ngClass]="{'has-success': form.controls.product_id.valid, 'has-error': form.controls.product_id.dirty && form.controls.product_id.errors}">
 			<input type="text" name="product_id" class="form-control" placeholder="Product ID" autocomplete="off" formControlName="product_id" />
 	       <ul class="help-block">
-		        <li *ngIf="(form.controls.product_id.dirty && form.controls.product_id.errors?.maxlength)">Length between 0 and 20.</li>
-		        <li *ngIf="form.controls.product_id.dirty && form.controls.product_id.errors?.alphaNumericValidation">Must be a letter or number</li>
+		        <li *ngIf="(form.controls.product_id.dirty && form.controls.product_id.errors?.maxlength)">Length between 0 and 40.</li>
 	        </ul>
 		</div>
   </div>
