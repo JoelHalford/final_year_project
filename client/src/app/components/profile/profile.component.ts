@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   likeLevel = 0;
   postLevel = 0;
   userLevel = 0;
+  userTitle = "";
 
   constructor(
   		private authService: AuthService,
@@ -65,14 +66,26 @@ export class ProfileComponent implements OnInit {
   level(likes)
   {
     this.postLevel = this.numOfPosts();
-    console.log("likes " + likes);
-    console.log("posts " + this.postLevel);
-    this.userLevel = this.postLevel + likes / 4;
-    console.log("level " + this.userLevel);
+    this.userLevel = (this.postLevel + likes) / 5;
     if (this.userLevel < 0)
     {
       this.userLevel = 0;
     }
-
+    if (this.userLevel >= 0 && this.userLevel <= 5)
+    {
+      this.userTitle = "Noobie";
+    }
+    else if (this.userLevel >= 6 && this.userLevel <= 20)
+    {
+      this.userTitle = "Scout";
+    }
+    else if (this.userLevel >= 21 && this.userLevel <= 50)
+    {
+      this.userTitle = "Warrior";
+    }
+    else if (this.userLevel > 51)
+    {
+      this.userTitle = "Legendary";
+    }
   }
 }

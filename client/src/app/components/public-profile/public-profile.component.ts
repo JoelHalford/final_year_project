@@ -19,6 +19,10 @@ export class PublicProfileComponent implements OnInit
   username;           //username of users profile
   loggedInUser;       //current logged in user
   found = false;      //whether user is found or not
+  likeLevel = 0;
+  postLevel = 0;
+  userLevel = 0;
+  userTitle = "";
 
   constructor(
     private cdRef: ChangeDetectorRef,
@@ -78,13 +82,41 @@ export class PublicProfileComponent implements OnInit
             }
           }
         }
+        this.likeLevel = this.overallLikes * 2;
+        this.level(this.likeLevel);
       }, 50);
     });
   }
 
   numOfPosts()
   {//returns number of product posts
+    this.postLevel = this.productPosts.length;
     return this.productPosts.length;
   }
 
+  level(likes)
+  {
+    this.postLevel = this.numOfPosts();
+    this.userLevel = (this.postLevel + likes) / 5;
+    if (this.userLevel < 0)
+    {
+      this.userLevel = 0;
+    }
+    if (this.userLevel >= 0 && this.userLevel <= 5)
+    {
+      this.userTitle = "Noobie";
+    }
+    else if (this.userLevel >= 6 && this.userLevel <= 20)
+    {
+      this.userTitle = "Scout";
+    }
+    else if (this.userLevel >= 21 && this.userLevel <= 50)
+    {
+      this.userTitle = "Warrior";
+    }
+    else if (this.userLevel > 51)
+    {
+      this.userTitle = "Legendary";
+    }
+  }
 }
