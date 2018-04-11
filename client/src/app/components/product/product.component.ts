@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
     {//validation using form builder
   		product_name: ['', Validators.compose([
   			Validators.required,          //name is required
-  			Validators.minLength(4),      //minimum length of 4
+  			Validators.minLength(1),      //minimum length of 4
   			Validators.maxLength(40),  		//maximum length of 40
   			this.alphaNumericValidation   //uses alphanumericValidation function
   		])],
@@ -52,12 +52,12 @@ export class ProductComponent implements OnInit {
   		product_location: ['', Validators.compose([
   			Validators.required,      //location is required
   			Validators.minLength(1),  //minimum length of 4
-  			Validators.maxLength(20)  //maximum length of 20
+  			Validators.maxLength(40)  //maximum length of 40
   		])],
       //validation for product_id
   		product_id: ['', Validators.compose([
-  			Validators.minLength(1),      //maximum length of 1
-  			Validators.maxLength(40),  		//maximum length of 40	
+  			Validators.minLength(0),      //maximum length of 1
+  			Validators.maxLength(20),  		//maximum length of 20	
   			this.alphaNumericValidation   //uses alphanumericValidation function
   		])],
       product_private: ['', Validators.compose([
@@ -83,7 +83,7 @@ export class ProductComponent implements OnInit {
   numericValidation(controls) 
   {//numeric validation
     //ensures input is only applicable to prices
-  	const regExp = new RegExp(/^[1-9]\d{0,7}(?:\.\d{1,4})?$/);
+  	const regExp = new RegExp(/^[0-9]\d{0,7}(?:\.\d{1,4})?$/);
   	if(regExp.test(controls.value)) 
     {
   		return null;
@@ -101,7 +101,7 @@ export class ProductComponent implements OnInit {
       comment: ['', Validators.compose([
         Validators.required,
         Validators.minLength(1),
-        Validators.maxLength(150)
+        Validators.maxLength(100)
       ])]
     });
   }

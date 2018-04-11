@@ -7,7 +7,7 @@ let nameLengthChecker = (product_name) =>
 	if (!product_name) {
 		return false;
 	} else {
-		if (product_name.length < 4 || product_name.length > 40) {
+		if (product_name.length < 1 || product_name.length > 40) {
 			return false;
 		} else {
 			return true;
@@ -47,7 +47,7 @@ let priceNameChecker = (product_price) =>
 	if (!product_price || product_price < 0) {
 		return false;
 	} else {
-		const regExp = new RegExp(/^[1-9]\d{0,7}(?:\.\d{1,4})?$/);
+		const regExp = new RegExp(/^[0-9]\d{0,7}(?:\.\d{1,4})?$/);
 		return regExp.test(product_price);
 	}
 };
@@ -70,7 +70,7 @@ let locationLengthChecker = (product_location) =>
 	if (!product_location) {
 		return false;
 	} else {
-		if (product_location.length < 1 || product_location.length > 20) {
+		if (product_location.length < 1 || product_location.length > 40) {
 			return false;
 		} else {
 			return true;
@@ -99,11 +99,11 @@ let idLengthChecker = (product_id) =>
 	} 
 	else 
 	{//if product_id is provided
-		if (product_id.length < 1 || product_id.length > 40) 
-		{//if product is not between 1 and 40, return false
+		if (product_id.length > 40) 
+		{//if product is more than 40, return false
 			return false;
 		} else 
-		{//if product is between 1 and 40, return true
+		{//if product is less than 40, return true
 			return true;
 		}
 	}
@@ -126,7 +126,7 @@ const idValidators =
 [//validation for product ID
 	{//id length validator name and message to send to client
 		validator: idLengthChecker, 
-		message:   "Product ID must be between 4 and 40 characters"
+		message:   "Product ID must be below 40 characters"
 	},
 	{//alphanumeric validator name and message to send to client
 		validator: alphaNumericIDChecker, 
