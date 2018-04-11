@@ -10,13 +10,13 @@ import { ProductService } from '../../services/product.service';
 export class ProfileComponent implements OnInit {
 
 	username; //users username
-  id;
+  id;                 //the users ID
   overallLikes = 0;   //users overall likes
   productPosts = [];  //array of product posts
-  likeLevel = 0;
-  postLevel = 0;
-  userLevel = 0;
-  userTitle = "";
+   likeLevel = 0;     //like level to be added to user level
+  postLevel = 0;      //post level to be added to user level
+  userLevel = 0;      //user level is like level and post level combined
+  userTitle = "";     //title of user depending on their level
 
   constructor(
   		private authService: AuthService,
@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
   }
 
   level(likes)
-  {
+  {//
     this.postLevel = this.numOfPosts();
     this.userLevel = (this.postLevel + likes) / 5;
     if (this.userLevel < 0)
@@ -83,7 +83,7 @@ export class ProfileComponent implements OnInit {
     {
       this.userTitle = "Warrior";
     }
-    else if (this.userLevel > 51)
+    else if (this.userLevel >= 51)
     {
       this.userTitle = "Legendary";
     }

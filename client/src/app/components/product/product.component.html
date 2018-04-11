@@ -111,7 +111,7 @@
 
       <!-- panel title start -->
       <div class="panel-heading">
-        <h3 class="panel-title"><strong>{{ product.product_name }}&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-size: 0.7em">Likes: {{ product.likes }}</span>
+        <h3 class="panel-title"><strong>{{ product.product_name }}&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-size: 0.7em">Upvotes: {{ product.likes }}</span>
         	<span style="font-size: 0.8em"><br/> posted by <em><a class="creator" [routerLink]="['/user/', product.createdBy]">{{ product.createdBy }}</a></em></span> 
         	<span style="font-size: 0.6em"> on <em>{{ product.createdAt | date: 'dd MMM, yyyy' }}</em></span> 
         </h3>
@@ -127,7 +127,7 @@
         <div *ngIf="username === product.createdBy && product.likes > 0">
           <div class="dropdown">
   	        <!-- like button -->
-  	        <button type="button" name="button" class="btn btn-sm btn-success">Who liked your post?</button>
+  	        <button type="button" name="button" class="btn btn-sm btn-success">Who upvoted your post?</button>
   	        <!-- dropdown menu for users that liked product -->
   	        <div class="dropdown-content">
   	          <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>
@@ -137,7 +137,7 @@
         <!-- drop for likes  -->
         <div class="dropdown" *ngIf="username != product.createdBy">
           <!-- like button -->
-          <button [disabled]="product.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy" (click)="likeProduct(product._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Like</button>
+          <button [disabled]="product.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-success" *ngIf="username !== product.createdBy" (click)="likeProduct(product._id)"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Upvote</button>
           <!-- dropdown menu for users that liked product -->
           <div class="dropdown-content">
             <a [routerLink]="['/user/', liked]" *ngFor="let liked of product.likedBy">{{ liked }}</a>

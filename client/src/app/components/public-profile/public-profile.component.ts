@@ -19,10 +19,10 @@ export class PublicProfileComponent implements OnInit
   username;           //username of users profile
   loggedInUser;       //current logged in user
   found = false;      //whether user is found or not
-  likeLevel = 0;
-  postLevel = 0;
-  userLevel = 0;
-  userTitle = "";
+  likeLevel = 0;      //like level to be added to user level
+  postLevel = 0;      //post level to be added to user level
+  userLevel = 0;      //user level is like level and post level combined
+  userTitle = "";     //title of user depending on their level
 
   constructor(
     private cdRef: ChangeDetectorRef,
@@ -98,11 +98,12 @@ export class PublicProfileComponent implements OnInit
   {
     this.postLevel = this.numOfPosts();
     this.userLevel = (this.postLevel + likes) / 5;
-    if (this.userLevel < 0)
+    if (this.userLevel <= 0)
     {
+      this.userTitle = "Lurker";
       this.userLevel = 0;
     }
-    if (this.userLevel >= 0 && this.userLevel <= 5)
+    if (this.userLevel > 0 && this.userLevel <= 5)
     {
       this.userTitle = "Noobie";
     }
