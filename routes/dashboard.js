@@ -114,7 +114,7 @@ router.put('/editBudget', (req, res) =>
 						{//if user is not found
 							res.json({ success: false, message: 'Unable to find user.'});
 						}
-						else if (user.username !== budget.username)
+						else if (user.username != budget.username)
 						{//if user is not the one that created the budget
 							res.json({ success: false, message: 'You are not the creator of this budget.'});
 						}
