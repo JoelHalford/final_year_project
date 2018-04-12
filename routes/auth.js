@@ -103,19 +103,24 @@ module.exports = (router) => {
 	});
   //middleware for headers [grabs users token]
    router.use((req, res, next) => {
-     const token = req.headers['auth']; // Create token found in headers
-     // Check if token was found in headers
-     if (!token) {
+     const token = req.headers['auth']; //create token found in headers
+     //check if token was found in headers
+     if (!token) 
+      {//no token
        res.json({ success: false, message: 'No token provided' }); // Return error
-     } else {
-       // Verify the token is valid
-       jwt.verify(token, config.secret, (err, decoded) => {
-         // Check if error is expired or invalid
-         if (err) {
-           res.json({ success: false, message: 'Token invalid: ' + err }); // Return error for token validation
-         } else {
-           req.decoded = decoded; // Create global variable to use in any request beyond
-           next(); // Exit middleware
+     } 
+     else 
+     {//verify the token is valid
+       jwt.verify(token, config.secret, (err, decoded) => 
+       {//check if error is expired or invalid
+         if (err) 
+         {//if an error occurs
+           res.json({ success: false, message: 'Token invalid: ' + err }); //return error for token validation
+         } 
+         else 
+         {//if no errors
+           req.decoded = decoded; //create global variable to use in any request beyond
+           next(); //exit middleware
          }
        });
      }
@@ -123,15 +128,14 @@ module.exports = (router) => {
   //intercept headers/get user profile
   router.get('/profile', (req, res) => 
   {//search for user in database
-    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => {
-      //check if error connecting
+    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => 
+    {//check for any errors
       if (err) 
-      {
+      {//check if error finding user
         res.json({ success: false, message: err }); // Return error
       } 
       else 
-      {
-        //check if user was found
+      {//check if user was found
         if (!user) 
         {// Return error, user was not found in db
           res.json({ success: false, message: 'User not found' });
@@ -146,8 +150,8 @@ module.exports = (router) => {
   //intercept headers/get user profile
   router.get('/admin', (req, res) => 
   {//search for user in database
-    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => {
-      //check if error connecting
+    User.findOne({ _id: req.decoded.userId }).select(['username', 'admin']).exec((err, user) => 
+    {//check if error connecting
       if (err) 
       {
         res.json({ success: false, message: err }); // Return error
