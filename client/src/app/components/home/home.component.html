@@ -3,10 +3,9 @@
   <p class="lead" *ngIf="!authService.loggedIn()">Welcome.</p>
   <p class="lead" *ngIf="authService.loggedIn()">Welcome, {{username}}.</p>
   <div>
-
     <p class="desc" *ngIf="!authService.loggedIn()">I see you are not logged in! It's super easy to make an account, all you need is a username and password. Then you will be able to set up a custom budget, add products, share them with others and even view products other people have posted. You'll also gain levels depending on how much you post and how many upvotes you receive. Join the community today by either <a routerLink="/register">registering</a> or <a routerLink="/login">logging in</a>.</p>
 
-    <p class="desc" *ngIf="authService.loggedIn()">Hey, {{username}}. Try not to go over budget, ok?</p>
+    <p class="desc" *ngIf="authService.loggedIn()">Try not to go over budget, ok?</p>
 
     <a *ngIf="!authService.loggedIn()" routerLink="/register" class="btn btn-primary">Register</a>
     <br/>
