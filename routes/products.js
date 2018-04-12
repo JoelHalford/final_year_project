@@ -1,20 +1,19 @@
 const User = require('../models/user'); 		//import user model schema
 const Product = require('../models/product');   //import product model schema
-const jwt = require('jsonwebtoken');
-const config = require('../config/database'); //import database config
-const multer = require('multer');
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, __dirname+'./uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
-
-module.exports = (router) => {
-
+const jwt = require('jsonwebtoken');			//token for users
+const config = require('../config/database'); 	//import database config
+const multer = require('multer');				//used for saving images
+// var storage = multer.diskStorage(
+// 	{//begin set up for adding images
+//   destination: function (req, file, cb) {
+//     cb(null, __dirname+'./uploads/')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now())
+//   }
+// })
+module.exports = (router) => 
+{//export module
 	router.post('/newProduct', (req,res) => 
 		{//post a new product
 		if (!req.body.product_name) 
@@ -52,7 +51,6 @@ module.exports = (router) => {
 				product_private: req.body.product_private,
 				createdBy: req.body.createdBy
 			});
-
 			product.save((err) => 
 			{//save product into database
 				if (err) 
@@ -82,7 +80,7 @@ module.exports = (router) => {
 						}
 					} 
 					else 
-					{
+					{//else if any other error
 						res.json({ success: false, message: err});
 					}
 				} 
@@ -92,12 +90,11 @@ module.exports = (router) => {
 				}
 			});
 		}
-	});
-		
+	});		
 	router.get('/allProducts', (req, res) => 
 	{//grab all products
 		Product.find({}, (err, products) => 
-		{
+		{//find all products
 			if (err) 
 			{//if an error occurs
 				res.json({ success: false, message: err	});
@@ -113,7 +110,6 @@ module.exports = (router) => {
 		//sorts by latest posted product
 		}).sort({'_id': -1});
 	});
-
 	router.get('/allUsers', (req, res) => 
 	{//grab all users
 		User.find({}, (err, users) => 
@@ -133,7 +129,6 @@ module.exports = (router) => {
 		//sorts by latest posted product
 		}).sort({'_id': -1});
 	});
-
 	router.get('/singleProduct/:id', (req, res) =>
 	{//grab a single product
 		if (!req.params.id) 
@@ -177,7 +172,6 @@ module.exports = (router) => {
 			});
 		}
 	});
-
 	router.put('/updateProduct', (req, res) => 
 	{//update a product
 		if(!req.body._id) 
@@ -236,7 +230,6 @@ module.exports = (router) => {
 			});
 		}
 	});
-
 	router.delete('/deleteProduct/:id', (req,res) =>
 	{//route for deleting product
 		if (!req.params.id)
@@ -295,56 +288,56 @@ module.exports = (router) => {
 			})
 		}
 	});
-
-	router.put('/likeProduct', (req, res) => {
+	router.put('/likeProduct', (req, res) => 
+	{//route for liking a product
 		if (!req.body.id)
-		{
+		{//if no ID provided
 			res.json ({ success: false, message: 'No product id provided.' });
 		}
 		else
-		{
+		{//if a ID is provided
 			Product.findOne({ _id: req.body.id }, (err, product) =>
-			{
+			{//find a product with this ID
 				if (err)
-				{
+				{//if error
 					res.json ({ success: false, message: 'Not a valid product id.' });
 				}
 				else if (!product)
-				{
+				{//if no product
 					res.json ({ success: true, message: 'The product was not found.' });
 				}
 				else
-				{
+				{//find a user
 					User.findOne({ _id: req.decoded.userId }, (err, user) =>
-					{
+					{//find a user based on decoded user ID
 						if (err)
-						{
+						{//if error
 							res.json ({ success: false, message: err });
 						}
 						else if (!user)
-						{
+						{//if no user found
 							res.json ({ success: false, message: 'The user was not found.' });
 						}
 						else if (user.username === product.createdBy)
-						{
+						{//if user is the same as user that created the product
 							res.json ({ success: false, message: 'Cannot like your own product post.' });
 						}
 						else if (product.likedBy.includes(user.username))
-						{
+						{//if user has alrady liked the product
 							res.json ({ success: false, message: 'You already liked the post.' });
 						}
 						else
-						{
+						{//if no errors
 							product.likes++;
 							product.likedBy.push(user.username);
 							product.save((err) =>
-							{
+							{//save to database
 								if (err)
-								{
+								{//if an error
 									res.json ({ success: false, message: err });
 								}
 								else
-								{
+								{//success
 									res.json ({ success: true, message: 'Product liked.' });
 								}
 							});
@@ -354,55 +347,54 @@ module.exports = (router) => {
 			})
 		}
 	});
-
 	router.post('/comment', (req, res) =>
-	{
+	{//route for adding a comment
 		if (!req.body.comment)
-		{
+		{//if no comment is provided
 			res.json ({ success: false, message: "No message provided." });
 		}
 		else if (!req.body.id)
-		{
+		{//if no ID is provided
 			res.json ({ success: false, message: "No ID provided." });
 		}
 		else
-		{
+		{//if comment and ID is provided
 			Product.findOne({ _id: req.body.id}, (err, product) =>
-			{
+			{//find product based on ID
 				if (err)
-				{
+				{//if any errors
 					res.json ({ success: false, message: "Invalid product ID provided." });
 				}
 				else if (!product)
-				{
+				{//if product not found
 					res.json ({ success: false, message: "Product not found." });
 				}
 				else
-				{
+				{//if no errors
 					User.findOne({ _id: req.decoded.userId }, (err, user) =>
-					{
+					{//find the user
 						if (err)
-						{
+						{//if errors
 							res.json ({ success: false, message: "Error found." });
 						}
 						else if (!user)
-						{
+						{//if user not found
 							res.json ({ success: false, message: "User not found." });
 						}
 						else
-						{
+						{//push comment and commentor to comments array
 							product.comments.push({
 								comment: req.body.comment,
 								commentator: user.username
 							});
 							product.save((err) =>
-							{
+							{//add comment to database
 								if (err)
-								{
+								{//if any errors
 									res.json ({ success: false, message: "Error found." });
 								}
 								else
-								{
+								{//success
 									res.json ({ success: true, message: "Message saved." });
 								}
 							});

@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
   		private authService: AuthService,
       private productService: ProductService
   	) { }
-
   ngOnInit() 
   {//on initialisation, place username into profile
   	this.authService.getProfile().subscribe(profile => 
@@ -34,7 +33,6 @@ export class ProfileComponent implements OnInit {
       this.getAllProducts();
     });
   }
-
   getAllProducts() 
   {//gets all products for logged in user
     this.productService.getAllProducts().subscribe(data => 
@@ -51,40 +49,38 @@ export class ProfileComponent implements OnInit {
             this.overallLikes += data.products[i].likes;
           }
         }
-        this.likeLevel = this.overallLikes * 2;
-        this.level(this.likeLevel);
+        this.likeLevel = this.overallLikes * 2;//multiple overlikes by 2
+        this.level(this.likeLevel);//call function level and pass in likeLevel
       }, 50);
     });
   }
-
   numOfPosts()
   {//returns the length of productPosts
     this.postLevel = this.productPosts.length;
     return this.productPosts.length;
   }
-
   level(likes)
-  {//
+  {//leveling system for user
     this.postLevel = this.numOfPosts();
     this.userLevel = (this.postLevel + likes) / 5;
     if (this.userLevel < 0)
-    {
+    {//never goes before 0
       this.userLevel = 0;
     }
     if (this.userLevel >= 0 && this.userLevel <= 5)
-    {
+    {//if between 0 and 5 points
       this.userTitle = "Noobie";
     }
     else if (this.userLevel >= 6 && this.userLevel <= 20)
-    {
+    {//if between 6 and 20 points
       this.userTitle = "Scout";
     }
     else if (this.userLevel >= 21 && this.userLevel <= 50)
-    {
+    {//if between 21 and 50 points
       this.userTitle = "Warrior";
     }
     else if (this.userLevel >= 51)
-    {
+    {//if above 50 points
       this.userTitle = "Legendary";
     }
   }

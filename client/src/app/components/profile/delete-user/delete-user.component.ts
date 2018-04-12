@@ -10,13 +10,11 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class DeleteUserComponent implements OnInit {
   
-  posts;
-  likes;
   checkerClass;
   checker;
-  foundUser = false;
-  username;
-  currentUrl;
+  foundUser = false;//whether user was found
+  username;//username
+  currentUrl;//name of current url
 
   constructor(
   	private authService: AuthService,

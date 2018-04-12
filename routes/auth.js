@@ -9,71 +9,98 @@ var userAdmin;
 module.exports = (router) => {
 
 	//validation for register POST
-	router.post('/register', (req,res) => {
-
-		if (!req.body.username) {//if no username is provided
+	router.post('/register', (req,res) => 
+  {
+		if (!req.body.username) 
+    {//if no username is provided
 			res.json({success: false, message: 'Must provide username'});
-		} else if (!req.body.password)
+		} 
+    else if (!req.body.password)
 		{//if no password provided
 			res.json({success: false, message: 'Must provide password'});
-		} else {
+		} 
+    else 
+    {
 			let user = new User({//if both created, store username and password in variables
 				username: req.body.username.toLowerCase(),
 				password: req.body.password,
         admin: false
 			});
-			user.save((err) => {//save user
-				if (err) {//if error message
+			user.save((err) => 
+      {//save user
+				if (err) 
+        {//if error message
 					if (err.code === 11000) {//if duplication error
 						res.json({ success: false, message: 'Duplicate username. Error: '});
-					} else {
-					if(err.errors) {
-						if(err.errors.username) {
+					} 
+          else 
+          {
+					if(err.errors) 
+          {
+						if(err.errors.username) 
+            {//if error username related
 							res.json({success: false, message: err.errors.username.message});
-						} else {
-							if (err.errors.password) {
+						} 
+            else 
+            {
+							if (err.errors.password) 
+              {//if error password related
 								res.json({ success: false, message: err.errors.password.message });
-							} else {
+							} 
+              else 
+              {//any other error
 								res.json({ success: false, message: err});
 							}
 						}
-					} else {//error saving user
+					} 
+          else 
+          {//error saving user
 						res.json({ success: false, message: 'Could not save user. Error: ', err});
 						}			
 					}
-				} else {//user was saved
+				} 
+        else 
+        {//user was saved
 					res.json({success: true, message: 'User saved'});
 				}
 			});
 		}
 	});
-
 	//validation for login POST
 	router.post('/login', (req, res) => {
-		if (!req.body.username) {//if username not provided
+		if (!req.body.username) 
+    {//if username not provided
 			res.json({ success: false, message: 'Must provide username'});
-		} else if (!req.body.password) {//if password not provided
+		} 
+    else if (!req.body.password) 
+    {//if password not provided
 			res.json({ success: false, message: 'Must provide password'});
-		} else {
-			User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {//find user
-				if (err) {//if any errors
+		} 
+    else 
+    {//if no errors found
+			User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => 
+      {//find user
+				if (err) 
+        {//if any errors
 					res.json({ success: false, message: err});
-				} else if (!user) {//if user not found
+				} 
+        else if (!user) 
+        {//if user not found
 					res.json({ success: false, message: 'Username not found'});
-				} else {
+				} 
+        else 
+        {//if no errors
 					const validPassword = user.comparePassword(req.body.password);
 					if (!validPassword) {//if password is not valid
 						res.json({ success: false, message: 'Password not valid'});
 					} else {//if success, create token and user
-						const token = jwt.sign({ userId: user._id }, config.secret, {expiresIn: 20}); //creates user token with ID from DB, expires in 12h
+						const token = jwt.sign({ userId: user._id }, config.secret, {expiresIn: '2h'}); //creates user token with ID from DB, expires in 12h
             res.json({ success: true, message: 'Success!', token: token, user: { username: user.username }});	//sends back success, user token and username
 					}
 				}
 			});
-		}
-		
+		}		
 	});
-
   //middleware for headers [grabs users token]
    router.use((req, res, next) => {
      const token = req.headers['auth']; // Create token found in headers
@@ -93,7 +120,6 @@ module.exports = (router) => {
        });
      }
    });
-
   //intercept headers/get user profile
   router.get('/profile', (req, res) => 
   {//search for user in database
@@ -109,14 +135,14 @@ module.exports = (router) => {
         if (!user) 
         {// Return error, user was not found in db
           res.json({ success: false, message: 'User not found' });
-        } else 
+        } 
+        else 
         {// Return success, send user object to frontend for profile
           res.json({ success: true, user: user });
         }
       }
     });
   });
-
   //intercept headers/get user profile
   router.get('/admin', (req, res) => 
   {//search for user in database
@@ -212,7 +238,7 @@ module.exports = (router) => {
               }
             })
           }
-        });
+        });  
   return router; // Return router object to main index.js
 }
 

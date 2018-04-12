@@ -10,18 +10,18 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductComponent implements OnInit {
 
-  form;
-  commentForm;
+  form;//holds form data
+  commentForm;//holds comment form data
   checkerClass;
   checker;
-  newProduct = false;
-  loadingProducts = false;
-  processing = false;
-  username;
-  productPosts = [];
-  additionalComment = [];
-  enabledComments = [];
-  show = 5;
+  newProduct = false;//initialise newProduct to false
+  loadingProducts = false;//initialise loadingProducts to false
+  processing = false;//initialise processing to false
+  username;//username of user
+  productPosts = [];//productPosts array
+  additionalComment = [];//additionalComment array
+  enabledComments = [];//enabledComments array
+  show = 5;//amount to show with infinite scroll
 
   constructor(
   	private formBuilder: FormBuilder,
@@ -63,7 +63,6 @@ export class ProductComponent implements OnInit {
       ])],
   	})
   }
-
   alphaNumericValidation(controls) 
   {//alphanumeric validation
     //ensures input is only letters or numbers (no special characters)
@@ -127,7 +126,6 @@ export class ProductComponent implements OnInit {
     this.additionalComment = []; //clear array so one comment is psoted at a time
     this.additionalComment.push(id); //adds comment to the array
   }
-
   onProductSubmit()
   {//when user submits a new product
   	console.log('Submitted form.');
@@ -142,9 +140,6 @@ export class ProductComponent implements OnInit {
       product_private: this.form.get('product_private').value,
   		createdBy: this.username
   	}
-
-    console.log(product);
-
     this.productService.newProduct(product).subscribe(data => {
       if (!data.success)
       {//if error in data submission
@@ -167,7 +162,6 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
   getAllProducts() 
   {//gets all current products
     this.productService.getAllProducts().subscribe(data => 
@@ -183,17 +177,15 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
   resetForm() 
   {//reset form 
   	this.form.reset();
-  }  
+  } 
 
   goBack() 
   {//reload the current window location
   	window.location.reload();
   }
-
   likeProduct(id)
   {//if user likes a product
     this.productService.likeProduct(id).subscribe(data =>
@@ -201,7 +193,6 @@ export class ProductComponent implements OnInit {
       this.getAllProducts();
     });
   }
-
   newComment(id)
   {//post a new comment to database
     this.disableCommentForm(); //disable the comment form while posting comment
@@ -222,7 +213,6 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
   cancelComment(id)
   {//user cancels posting a comment 
     const index = this.additionalComment.indexOf(id);  //grab index of purchase id
@@ -230,28 +220,23 @@ export class ProductComponent implements OnInit {
     this.commentForm.reset(); //clear the comment form
     this.enableCommentForm(); //enable the form
   }
-
   enableCommentForm()
   {//enable comment form for use
     this.commentForm.get('comment').enable();
   }
-
   disableCommentForm()
   {//disable comment form so user can't post
     this.commentForm.get('comment').disable();
   }
-
   showComments(id)
   {//shows the comments
     this.enabledComments.push(id);
   }
-
   hideComments(id)
   {//hides the comments
     const index = this.enabledComments.indexOf(id);
     this.enabledComments.splice(index, 1);
   }
-
   ngOnInit() 
   {//on initialisation, assign logged in user to username
   	this.authService.getProfile().subscribe(profile => {
@@ -260,7 +245,6 @@ export class ProductComponent implements OnInit {
     //grab all products on initialisation
     this.getAllProducts();
   }
-
   onScroll () 
   {//on scroll, add 3 more products
       this.show += 3;

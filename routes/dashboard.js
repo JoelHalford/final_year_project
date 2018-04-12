@@ -1,7 +1,7 @@
 const User = require('../models/user'); //import user model schema
 const Product = require('../models/product'); //import product model schema
 const Budget = require('../models/budget');     //import budget model schema
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');			//token for users
 const config = require('../config/database'); //import database config
 
 module.exports = (router) => {
@@ -70,7 +70,7 @@ module.exports = (router) => {
 					}
 				} 
 				else 
-				{
+				{//if any other error, send error message
 					res.json({ success: false, message: err});
 				}
 			} 
@@ -83,8 +83,7 @@ module.exports = (router) => {
 
 router.put('/editBudget', (req, res) => 
 	{//update a budget
-
-		_id = req.body._id;
+		_id = req.body._id; //request budget ID
 
 		if(!_id) 
 		{//return error if no ID provided
@@ -93,7 +92,7 @@ router.put('/editBudget', (req, res) =>
 		else
 		{
 			Budget.findOne({ _id }, (err, budget) =>
-			{
+			{//find a budget based on _id
 				if (err)
 				{///if error not a valid budget ID
 					res.json({ success: false, message: 'Budget ID not valid.'});

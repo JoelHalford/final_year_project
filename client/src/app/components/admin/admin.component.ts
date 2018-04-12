@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
-
-  admin;
+export class AdminComponent implements OnInit 
+{
+  admin;              //admin status
   productPosts = [];  //array of product posts
   userPosts = [];  	  //array of user posts
   checker;            //update message
   checkerClass;       //update message class
-  username;       //current logged in user
+  username;           //current logged in user
 
   constructor(
   		private authService: AuthService,
@@ -28,23 +28,25 @@ export class AdminComponent implements OnInit {
   	this.authService.getAdmin().subscribe(profile => 
     {//subscribe to getProfile service inside /services/auth.service
       //set logged in user to username
-      	if (profile.user == undefined)
-      	{
-  			this.checkerClass = 'alert alert-danger';
+      if (profile.user == undefined)
+      {//if user is undefined
+  		  this.checkerClass = 'alert alert-danger';
   			this.checker = profile.message;
-        this.router.navigate(['/']);
-      	}
-      	else
-      	{
+        this.router.navigate(['/']);//redirect to homepage
+      }
+      else
+      {//if user is logged in
+        //get users username
 	  		this.username = profile.user.username;
+        //get admin status
 	  		this.admin = profile.user.admin;
-		    //call getAllProducts
+		    //call getAllProducts (retrieves products from DB)
 		    this.getAllProducts();
+        //call getAllUsers (retrieves users from DB)
 		    this.getAllUsers();
   		}
     });
   }
-
   getAllProducts() 
   {//gets all products
     this.productService.getAllProducts().subscribe(data => 
@@ -53,14 +55,13 @@ export class AdminComponent implements OnInit {
         {//set a timeout of 50ms
         for (let i = 0; i < data.products.length; i++)
         {//loop through products
-            //add current product to productPosts
-            this.productPosts.push(data.products[i]);
-            //add current product likes to overall likes
+          //add current product to productPosts
+          this.productPosts.push(data.products[i]);
+          //add current product likes to overall likes
         }
       }, 50);
     });
   }
-
   getAllUsers() 
   {//gets all products
     this.productService.getAllUsers().subscribe(data => 
@@ -76,7 +77,6 @@ export class AdminComponent implements OnInit {
       }, 50);
     });
   }
-
   deleteProduct(_id)
   {//function for deleting a product
   	this.productService.deleteProduct(_id).subscribe(data =>
@@ -99,7 +99,6 @@ export class AdminComponent implements OnInit {
   		}
   	});
   }
-
   deleteUser(_id)
   {//function for deleting a product
     this.authService.deleteUser(_id).subscribe(data =>

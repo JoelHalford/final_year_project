@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';  //allows reactive
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';//allows reactive forms
+import { Router } from '@angular/router';//allows navigation between routes
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
 
@@ -17,7 +17,6 @@ export class DashboardComponent implements OnInit {
     // { data: [120, 455, 100, 340], label: 'February' },
     // { data: [45, 67, 800, 500], label: 'March' }
   ];
-
   chartOptions = 
   {//options for the chart
     legend: 
@@ -162,7 +161,6 @@ export class DashboardComponent implements OnInit {
       username: this.username,
       budget_price: this.form.get('budget_price').value
     }
-
     this.productService.newBudget(budget).subscribe(data => 
       {//subscribe to newBudget service set up in /services/product.service
       if (!data.success) 
@@ -170,12 +168,13 @@ export class DashboardComponent implements OnInit {
         this.checkerClass = 'alert alert-danger';
         this.checker = data.message;
         this.processing = false;
-      }else 
+      }
+      else 
       {//if data retrievel is successful
         this.checkerClass = 'alert alert-success';
         this.checker = data.message;
         setTimeout(() => 
-        {//set timeout of 2500ms
+        {//set timeout of 1500ms
           this.router.navigate(['/products']); //navigate to products view
         }, 1500);
       }

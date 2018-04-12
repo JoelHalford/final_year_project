@@ -14,11 +14,14 @@ export class NotAuthGuard implements CanActivate {
 		private router: Router
 	){}
 
-	canActivate() {
-		if (this.authService.loggedIn()) {
+	canActivate() 
+	{
+		if (this.authService.loggedIn()) 
+		{//if user is not logged in, redirect to homepage
 			this.router.navigate(['/home']);
 			return false;
-		} else {
+		} else 
+		{//proceed
 			return true;
 		}
 	}

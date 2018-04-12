@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   {//create Login Form when component is constructed    
     this.createForm();
   }
-
   createForm() 
   {//create login form
     this.form = this.formBuilder.group({
@@ -30,7 +29,6 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required] //password field
     });
   }
-
   onLoginSubmit() 
   {//submit form and login user
     this.processing = true; //submit button processed
@@ -39,7 +37,6 @@ export class LoginComponent implements OnInit {
       username: this.form.get('username').value, //username input field
       password: this.form.get('password').value  //password input field
     }
-
     //function to send login data to API
     this.authService.login(user).subscribe(data => {
       //check if response was a success or error
@@ -62,7 +59,6 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
   ngOnInit() {
   }
 }

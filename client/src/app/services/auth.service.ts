@@ -7,17 +7,16 @@ import { tokenNotExpired } from 'angular2-jwt';	//can check if user is logged in
 export class AuthService 
 {
 	domain = ""; //dev domain
-	authToken;
-	user;
-	options;
+	authToken;   //contains auth token
+	user;        //users object
+	options;     //header options 
 
   constructor(
 	private http: Http	//initialise http
   ) { }
 
-  //enables users to access specific areas
   createAuthHeaders() 
-  {
+  {//enables users to access specific areas
   	this.grabToken();
   	this.options = new RequestOptions({
   	  headers: new Headers({
@@ -26,61 +25,51 @@ export class AuthService
   	  })
   	});
   }
-
-  //grabs the users token
   grabToken() 
-  {
+  {//grabs the users token
   	const token = localStorage.getItem('token');
   	this.authToken = token;
-  }
-  //register users
+  }  
   registerUser(user) 
-  {
+  {//register users
   	return this.http.post(this.domain + 'auth/register', user).map(res => res.json());
   }
-
-  //login users
   login(user) 
-  {
+  {//login users
   	return this.http.post(this.domain + 'auth/login', user).map(res => res.json());
   }
-  //allows users to logout
-  logout() {
+  logout() 
+  {//allows users to logout
   	this.authToken = null;
   	this.user = null;
   	localStorage.clear();
   }
-  //stores user data
-  storeUserData(token, user) {
-	localStorage.setItem('token', token);
-	localStorage.setItem('user', JSON.stringify(user));
-	this.authToken = token;
-	this.user = user;
+  storeUserData(token, user) 
+  {//store user data within local storage
+  	localStorage.setItem('token', token);
+  	localStorage.setItem('user', JSON.stringify(user));
+  	this.authToken = token;
+  	this.user = user;
   }
-  //retrieves users profile
   getProfile() 
-  {
+  {//retrieves users profile
 		this.createAuthHeaders();
 		return this.http.get(this.domain + 'auth/profile', this.options).map(res => res.json());
   }
-  //retrieves admins profile
   getAdmin() 
-  {
+  {//retrieves admins profile
     this.createAuthHeaders();
     return this.http.get(this.domain + 'auth/admin', this.options).map(res => res.json());
   }
-  //checks if user is logged in
   loggedIn() 
-  {
+  {//checks if user is logged in
   	return tokenNotExpired();
   }
-  //retrieves a users public profile
   getPublicProfile(username)
-  {
+  {//retrieves a users public profile
     this.createAuthHeaders();
     return this.http.get(this.domain + 'auth/publicProfile/' + username, this.options).map(res => res.json());
   }
-  //delete a user
   deleteUser(id)
   {//service for deleting product
     this.createAuthHeaders();

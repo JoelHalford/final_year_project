@@ -8,19 +8,22 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  username;
-  admin;
+  username;///users username
+  admin;//users admin status
 
   constructor(
 	public authService: AuthService
   ) { }
 
   ngOnInit() 
-  {
+  {//on initialisation
   	if (this.authService.loggedIn())
-  	{
-	  	this.authService.getProfile().subscribe(profile => {
+  	{//check if user is logged in
+	  	this.authService.getProfile().subscribe(profile => 
+        {//subscribe to authService getProfile
+        //get users username
 	  		this.username = profile.user.username;
+        //get users admin status
         this.admin = profile.user.admin;
 	  	});
   	}
