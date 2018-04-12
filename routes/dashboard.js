@@ -116,7 +116,7 @@ router.put('/editBudget', (req, res) =>
 						}
 						else if (user.username != budget.username)
 						{//if user is not the one that created the budget
-							res.json({ success: false, message: 'You are not the creator of this budget.'});
+							// res.json({ success: false, message: 'You are not the creator of this budget.'});
 						}
 						else
 						{//if user is the creator of the budget, allow them to edit							
