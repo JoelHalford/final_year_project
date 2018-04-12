@@ -8,10 +8,6 @@ var userAdmin;
 
 module.exports = (router) => {
 
-  router.get('/get-token', function(req, res) {
-    var token = jwt.sign({foo: 'bar'}, 'my-secret');
-    res.send({token: token});
-  });
 	//validation for register POST
 	router.post('/register', (req,res) => {
 
@@ -69,7 +65,7 @@ module.exports = (router) => {
 					if (!validPassword) {//if password is not valid
 						res.json({ success: false, message: 'Password not valid'});
 					} else {//if success, create token and user
-						const token = jwt.sign({ userId: user._id }, config.secret, {expiresIn: '24h'}); //creates user token with ID from DB, expires in 12h
+						const token = jwt.sign({ userId: user._id }, config.secret, {expiresIn: 20}); //creates user token with ID from DB, expires in 12h
             res.json({ success: true, message: 'Success!', token: token, user: { username: user.username }});	//sends back success, user token and username
 					}
 				}
