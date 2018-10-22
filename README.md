@@ -1,1 +1,1 @@
-"# MEAN-Stack-With-Angular-2-Tutorial" 
+"# Final Year Porject using the MEAN stack. Budgeting Application.
